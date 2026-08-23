@@ -205,9 +205,21 @@ $unordered-marker-depth: 12;
   background-size: 5.5rem 5.5rem;
 }
 
-// The single affordance for "this control is live": signal fill, ink glyph.
+// Signal belongs to the document: selection, search hits, emphasis, structural rules.
 @mixin signal-hit {
   background: $signal;
+  color: $ink;
+}
+
+// Application chrome — toolbars, menus, lists, buttons — stays on the ink scale, so
+// the signal marker never competes with the text being edited.
+@mixin control-hover {
+  background: tint(ink, 0.08);
+  color: $ink;
+}
+
+@mixin control-on {
+  background: tint(ink, 0.12);
   color: $ink;
 }
 
@@ -994,7 +1006,7 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
   :is(a.md-active, a:hover),
   tr[row="1"] :is(a.md-active, a:hover) {
     border-color: $ink;
-    background: $signal;
+    background: $ink;
   }
 }
 
@@ -1115,10 +1127,14 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
 }
 
 .ty-table-edit button:hover,
-.md-rawblock-tooltip-btn:hover,
+.md-rawblock-tooltip-btn:hover {
+  @include control-hover;
+}
+
+// A dark chip sitting on the image itself; an ink tint would vanish there.
 .md-image-btn:hover,
 .md-image-btn.selected {
-  @include signal-hit;
+  background: $ink;
 }
 
 .md-image-uploading-mask-wrapper {
@@ -1140,11 +1156,18 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
   @include hard-shadow;
 }
 
+// Pointing at a button is not a state worth the signal marker; that stays for the
+// toggles that are actually on.
 .ty-editor-toolbar-btn {
   border-radius: 1px;
 
-  &:is(.hover, :hover, .active) {
-    @include signal-hit;
+  &:is(.hover, :hover) {
+    @include control-hover;
+    opacity: 1;
+  }
+
+  &.active {
+    @include control-on;
     opacity: 1;
   }
 }
@@ -1163,8 +1186,12 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
 .ty-editor-toolbar-menu-item {
   border-radius: 1px;
 
-  &:is(:hover, .active) {
-    @include signal-hit;
+  &:hover {
+    @include control-hover;
+  }
+
+  &.active {
+    @include control-on;
   }
 }
 
@@ -1207,7 +1234,7 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
 }
 
 .ty-search-item.select {
-  @include signal-hit;
+  @include control-on;
 }
 
 .outline-label:hover,
@@ -1222,7 +1249,7 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
 }
 
 .ty-outline-hit {
-  @include signal-hit;
+  @include control-on;
 }
 
 #typora-quick-open,
@@ -1246,11 +1273,15 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
   box-shadow: none;
 }
 
-.typora-quick-open-item.active,
 :is(.dropdown-menu, .context-menu) > li > a:hover,
+.ty-spell-check-panel-item:hover {
+  @include control-hover;
+}
+
+.typora-quick-open-item.active,
 :is(.dropdown-menu, .context-menu) > .active > a,
-.ty-spell-check-panel-item:is(.ty-active, :hover) {
-  @include signal-hit;
+.ty-spell-check-panel-item.ty-active {
+  @include control-on;
 }
 
 :is(.dropdown-menu, .context-menu) .divider {
@@ -1278,11 +1309,16 @@ button {
   color: $paper;
 }
 
-// Preferences renders its own `.btn` controls; leave those to Typora rather than
-// dropping the editor's signal marker into that window.
-:is(.btn-primary, .btn-default):hover:not(.ty-preferences *) {
+// Preferences renders its own `.btn` controls; leave those to Typora.
+.btn-default:hover:not(.ty-preferences *) {
   border-color: $ink;
-  @include signal-hit;
+  @include control-hover;
+}
+
+// The primary button is already ink on paper, so it lifts rather than tints.
+.btn-primary:hover:not(.ty-preferences *) {
+  border-color: $soft;
+  background: $soft;
 }
 
 :is(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
@@ -1314,7 +1350,7 @@ footer.ty-footer {
 .typora-sourceview-on #toggle-sourceview-btn,
 .on-focus-mode #toggle-focus-mode-btn,
 .ty-on-typewriter-mode #toggle-typewriter-mode-btn {
-  @include signal-hit;
+  @include control-on;
 }
 
 .megamenu-menu {
@@ -1328,8 +1364,10 @@ footer.ty-footer {
   border-color: tint(paper, 0.25);
 }
 
+// This menu is ink-on-paper inverted, so its hover lifts towards paper instead.
 .megamenu-menu-list li a:is(.active, :hover) {
-  @include signal-hit;
+  background: tint(paper, 0.14);
+  color: $paper;
 }
 
 .megamenu-content,
@@ -1404,13 +1442,13 @@ footer.ty-footer {
 #ty-preview-pill .ty-preview-btn {
   &:hover,
   &:active {
-    @include signal-hit;
+    @include control-hover;
   }
 }
 
 #ty-preview-open-menu {
   li:hover {
-    @include signal-hit;
+    @include control-hover;
   }
 
   li.separator {

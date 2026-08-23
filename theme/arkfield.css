@@ -819,7 +819,7 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
 #write .md-grid-board :is(a.md-active, a:hover),
 #write .md-grid-board tr[row="1"] :is(a.md-active, a:hover) {
   border-color: var(--ark-ink);
-  background: var(--ark-signal);
+  background: var(--ark-ink);
 }
 
 #write .md-grid-board-wrap .popover-title {
@@ -955,11 +955,14 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
 }
 
 .ty-table-edit button:hover,
-.md-rawblock-tooltip-btn:hover,
+.md-rawblock-tooltip-btn:hover {
+  background: rgba(25, 25, 25, 0.08);
+  color: var(--ark-ink);
+}
+
 .md-image-btn:hover,
 .md-image-btn.selected {
-  background: var(--ark-signal);
-  color: var(--ark-ink);
+  background: var(--ark-ink);
 }
 
 .md-image-uploading-mask-wrapper {
@@ -983,8 +986,13 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
 .ty-editor-toolbar-btn {
   border-radius: 1px;
 }
-.ty-editor-toolbar-btn:is(.hover, :hover, .active) {
-  background: var(--ark-signal);
+.ty-editor-toolbar-btn:is(.hover, :hover) {
+  background: rgba(25, 25, 25, 0.08);
+  color: var(--ark-ink);
+  opacity: 1;
+}
+.ty-editor-toolbar-btn.active {
+  background: rgba(25, 25, 25, 0.12);
   color: var(--ark-ink);
   opacity: 1;
 }
@@ -1005,8 +1013,12 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
 .ty-editor-toolbar-menu-item {
   border-radius: 1px;
 }
-.ty-editor-toolbar-menu-item:is(:hover, .active) {
-  background: var(--ark-signal);
+.ty-editor-toolbar-menu-item:hover {
+  background: rgba(25, 25, 25, 0.08);
+  color: var(--ark-ink);
+}
+.ty-editor-toolbar-menu-item.active {
+  background: rgba(25, 25, 25, 0.12);
   color: var(--ark-ink);
 }
 
@@ -1048,7 +1060,7 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
 }
 
 .ty-search-item.select {
-  background: var(--ark-signal);
+  background: rgba(25, 25, 25, 0.12);
   color: var(--ark-ink);
 }
 
@@ -1064,7 +1076,7 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
 }
 
 .ty-outline-hit {
-  background: var(--ark-signal);
+  background: rgba(25, 25, 25, 0.12);
   color: var(--ark-ink);
 }
 
@@ -1091,11 +1103,16 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
   box-shadow: none;
 }
 
-.typora-quick-open-item.active,
 :is(.dropdown-menu, .context-menu) > li > a:hover,
+.ty-spell-check-panel-item:hover {
+  background: rgba(25, 25, 25, 0.08);
+  color: var(--ark-ink);
+}
+
+.typora-quick-open-item.active,
 :is(.dropdown-menu, .context-menu) > .active > a,
-.ty-spell-check-panel-item:is(.ty-active, :hover) {
-  background: var(--ark-signal);
+.ty-spell-check-panel-item.ty-active {
+  background: rgba(25, 25, 25, 0.12);
   color: var(--ark-ink);
 }
 
@@ -1124,10 +1141,15 @@ button {
   color: var(--ark-paper);
 }
 
-:is(.btn-primary, .btn-default):hover:not(.ty-preferences *) {
+.btn-default:hover:not(.ty-preferences *) {
   border-color: var(--ark-ink);
-  background: var(--ark-signal);
+  background: rgba(25, 25, 25, 0.08);
   color: var(--ark-ink);
+}
+
+.btn-primary:hover:not(.ty-preferences *) {
+  border-color: var(--ark-soft);
+  background: var(--ark-soft);
 }
 
 :is(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
@@ -1159,7 +1181,7 @@ footer.ty-footer {
 .typora-sourceview-on #toggle-sourceview-btn,
 .on-focus-mode #toggle-focus-mode-btn,
 .ty-on-typewriter-mode #toggle-typewriter-mode-btn {
-  background: var(--ark-signal);
+  background: rgba(25, 25, 25, 0.12);
   color: var(--ark-ink);
 }
 
@@ -1175,8 +1197,8 @@ footer.ty-footer {
 }
 
 .megamenu-menu-list li a:is(.active, :hover) {
-  background: var(--ark-signal);
-  color: var(--ark-ink);
+  background: rgba(250, 250, 248, 0.14);
+  color: var(--ark-paper);
 }
 
 .megamenu-content,
@@ -1238,12 +1260,12 @@ footer.ty-footer {
 
 #ty-preview-pill .ty-preview-btn:hover,
 #ty-preview-pill .ty-preview-btn:active {
-  background: var(--ark-signal);
+  background: rgba(25, 25, 25, 0.08);
   color: var(--ark-ink);
 }
 
 #ty-preview-open-menu li:hover {
-  background: var(--ark-signal);
+  background: rgba(25, 25, 25, 0.08);
   color: var(--ark-ink);
 }
 #ty-preview-open-menu li.separator {
