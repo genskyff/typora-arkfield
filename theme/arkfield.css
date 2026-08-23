@@ -457,7 +457,7 @@ content {
 #write .md-fences:not(.md-fences-advanced) {
   position: relative;
   margin-block: 0.5rem;
-  padding: 0.3rem 1rem;
+  padding: 0.3rem 1rem 0.12rem;
   border: 1px solid var(--ark-rule);
   border-top: 0;
   background:
@@ -481,7 +481,7 @@ content {
   pointer-events: none;
 }
 #write .md-fences:not(.md-fences-advanced) .CodeMirror-lines {
-  padding-block: 0.3rem;
+  padding-block: 0.3rem 0.12rem;
 }
 #write .md-fences :is(.CodeMirror, .CodeMirror-scroll, .CodeMirror-gutters) {
   background: var(--ark-paper);

@@ -621,11 +621,13 @@ content {
   }
 
   // Editing uses CodeMirror's own box, exports render the bare `pre`; both need the
-  // same inset so a fence is the same height in the editor and in the export.
+  // same inset so a fence is the same height in the editor and in the export. The
+  // bottom is 3px shy of the top because the line box does not split its leading
+  // evenly — that makes the space above and below the code read as equal.
   .md-fences:not(.md-fences-advanced) {
     position: relative;
     margin-block: $block-gap;
-    padding: 0.3rem 1rem;
+    padding: 0.3rem 1rem 0.12rem;
     border: 1px solid $rule;
     @include signal-top;
     color: $ink;
@@ -648,7 +650,7 @@ content {
     }
 
     .CodeMirror-lines {
-      padding-block: 0.3rem;
+      padding-block: 0.3rem 0.12rem;
     }
   }
 
