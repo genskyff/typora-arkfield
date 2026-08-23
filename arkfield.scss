@@ -570,8 +570,15 @@ content {
     font-weight: 700;
   }
 
+  // `overflow-x: auto` makes the figure a formatting context, so the table's own
+  // margin can no longer collapse with it and the two would stack into a double gap.
+  // The figure's margin alone carries the spacing.
   figure {
     overflow-x: auto;
+
+    > table {
+      margin-block: 0;
+    }
   }
 
   figcaption,
@@ -617,10 +624,12 @@ content {
     }
   }
 
+  // Editing uses CodeMirror's own box, exports render the bare `pre`; both need the
+  // same inset so a fence is the same height in the editor and in the export.
   .md-fences:not(.md-fences-advanced) {
     position: relative;
-    margin: 1.5rem 0;
-    padding: 0.85rem 1rem;
+    margin: 1.5rem 0 1.1rem;
+    padding: 0.3rem 1rem;
     border: 1px solid $rule;
     @include signal-top;
     color: $ink;
@@ -643,7 +652,7 @@ content {
     }
 
     .CodeMirror-lines {
-      padding-block: 0.65rem;
+      padding-block: 0.3rem;
     }
   }
 
@@ -654,20 +663,25 @@ content {
   }
 
   // Rendered diagrams (Mermaid, sequence, flow) get the same frame as a code fence.
+  // Mermaid already leaves a 40px margin inside its own canvas, so the frame keeps
+  // only a thin bottom inset instead of stacking a second gap under the drawing.
   .md-fences-advanced {
-    margin: 1.5rem 0;
-    padding: 0.85rem 1rem;
+    margin: 1.5rem 0 1.1rem;
+    padding: 0.85rem 1rem 0.5rem;
     border: 1px solid $rule;
     @include signal-top;
 
     .md-diagram-panel {
       margin: 0;
+      padding: 0;
     }
 
     // Mermaid centres titles without measuring them, so a long one overruns the
     // viewBox. The diagram is narrower than the column: let it use that slack
     // instead of being clipped, and bring the 25px default into the type scale.
     .md-diagram-panel-preview svg {
+      display: block;
+      margin-inline: auto;
       overflow: visible;
     }
 
@@ -930,10 +944,20 @@ $unordered-list-selector: "#write ul";
 // Hybrid editor-only states: Markdown metadata, search, CodeMirror and edit panels.
 
 // Typora gives `.ty-table-edit` an inline `margin-top: -<its own height>`, so the
-// toolbar hangs in the figure's top margin rather than over the table. Reserve a row
-// for it there; exports have no toolbar and keep the normal rhythm.
-body:not(.typora-export) #write figure {
-  margin-top: 2.6rem;
+// toolbar hangs in the figure's top margin rather than over the table. Its box would
+// otherwise inherit the prose line-height and stand 9px taller than its own buttons.
+#write .ty-table-edit {
+  line-height: 1;
+}
+
+// Open the gap only while the toolbar is actually in the DOM, so an unfocused table
+// keeps the normal block rhythm instead of a permanently empty row.
+body:not(.typora-export) #write figure:has(.ty-table-edit) {
+  margin-top: 1.6rem;
+
+  > table {
+    margin-top: 0.4rem;
+  }
 }
 
 // Table size picker. It is a real <table> living inside #write, so the document table
@@ -1020,8 +1044,10 @@ body:not(.typora-export) #write figure {
     background: $paper;
   }
 
+  // Numbers are right-aligned, so the right padding is the whole visible gap before
+  // the gutter rule; keep it thin and put the breathing room on the left instead.
   .CodeMirror-linenumber {
-    padding-inline: 0.4rem;
+    padding: 0 0.1rem 0 0.35rem;
     color: $muted;
     font-variant-numeric: tabular-nums;
     text-align: right;

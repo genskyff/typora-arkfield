@@ -421,6 +421,9 @@ content {
 #write figure {
   overflow-x: auto;
 }
+#write figure > table {
+  margin-block: 0;
+}
 #write figcaption,
 #write caption {
   padding: 0.45rem 0;
@@ -459,8 +462,8 @@ content {
 }
 #write .md-fences:not(.md-fences-advanced) {
   position: relative;
-  margin: 1.5rem 0;
-  padding: 0.85rem 1rem;
+  margin: 1.5rem 0 1.1rem;
+  padding: 0.3rem 1rem;
   border: 1px solid var(--ark-rule);
   border-top: 0;
   background:
@@ -484,14 +487,14 @@ content {
   pointer-events: none;
 }
 #write .md-fences:not(.md-fences-advanced) .CodeMirror-lines {
-  padding-block: 0.65rem;
+  padding-block: 0.3rem;
 }
 #write .md-fences :is(.CodeMirror, .CodeMirror-scroll, .CodeMirror-gutters) {
   background: var(--ark-paper);
 }
 #write .md-fences-advanced {
-  margin: 1.5rem 0;
-  padding: 0.85rem 1rem;
+  margin: 1.5rem 0 1.1rem;
+  padding: 0.85rem 1rem 0.5rem;
   border: 1px solid var(--ark-rule);
   border-top: 0;
   background:
@@ -500,8 +503,11 @@ content {
 }
 #write .md-fences-advanced .md-diagram-panel {
   margin: 0;
+  padding: 0;
 }
 #write .md-fences-advanced .md-diagram-panel-preview svg {
+  display: block;
+  margin-inline: auto;
   overflow: visible;
 }
 #write .md-fences-advanced .pieTitleText {
@@ -783,8 +789,15 @@ content {
   font-size: 0.68em;
 }
 
-body:not(.typora-export) #write figure {
-  margin-top: 2.6rem;
+#write .ty-table-edit {
+  line-height: 1;
+}
+
+body:not(.typora-export) #write figure:has(.ty-table-edit) {
+  margin-top: 1.6rem;
+}
+body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
+  margin-top: 0.4rem;
 }
 
 #write .md-grid-board {
@@ -858,7 +871,7 @@ body:not(.typora-export) #write figure {
 }
 .cm-s-inner .CodeMirror-linenumber,
 .cm-s-typora-default .CodeMirror-linenumber {
-  padding-inline: 0.4rem;
+  padding: 0 0.1rem 0 0.35rem;
   color: var(--ark-muted);
   font-variant-numeric: tabular-nums;
   text-align: right;
