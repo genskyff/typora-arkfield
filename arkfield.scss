@@ -709,12 +709,18 @@ content {
     color: $muted;
     font-size: 0.875rem;
 
+    // The brackets are absolutely positioned into fixed `ch` padding sized for the
+    // footnote's two-character `[^`, which leaves a gap before a link definition's
+    // `[` and crowds the closing `] :`. Let them flow instead, so the rendering
+    // matches the source in either form.
     .md-def-name {
+      padding: 0;
       color: $ink;
       font-family: $mono-font;
 
       &::before,
       &::after {
+        position: static;
         color: ark(char);
         font-family: $mono-font;
       }

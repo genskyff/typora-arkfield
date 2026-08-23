@@ -538,11 +538,13 @@ content {
   font-size: 0.875rem;
 }
 #write :is(.md-def-link, .md-def-footnote) .md-def-name {
+  padding: 0;
   color: var(--ark-ink);
   font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 #write :is(.md-def-link, .md-def-footnote) .md-def-name::before,
 #write :is(.md-def-link, .md-def-footnote) .md-def-name::after {
+  position: static;
   color: var(--ark-char);
   font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
