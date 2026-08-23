@@ -76,9 +76,13 @@ an autolink <https://support.typora.io/>, and a footnote for export behavior.[^e
 
 ### Quote / 引用块
 
-> 好的技术文档不仅记录结果，也让读者理解约束、判断依据和下一步行动。
+> 好的**技术文档**不仅记录结果，也让读者理解*约束*、判断依据和下一步行动。
 >
-> Documentation should preserve context across languages and export formats.
+> Documentation should preserve *context* across languages and export formats.
+>
+> ```shell
+> echo 1
+> ```
 >
 > - 中文：先说明目标，再给出证据。
 > - 日本語：目的、根拠、結果の順に整理する。
@@ -150,6 +154,8 @@ an autolink <https://support.typora.io/>, and a footnote for export behavior.[^e
 ## 05 / Data and media / 数据与媒体
 
 ### Data table / 数据表
+
+数据表
 
 | Module / 模块 / モジュール | State / 状态 / 状態 | Records |  Output |
 | :------------------------- | :-----------------: | ------: | ------: |
