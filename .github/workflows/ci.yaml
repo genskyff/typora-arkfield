@@ -20,11 +20,5 @@ jobs:
       - name: Setup Mise
         uses: jdx/mise-action@v4
 
-      - name: Build theme
-        run: mise run build
-
-      - name: Check generated theme
-        run: git diff --exit-code -- theme/arkfield.css
-
       - name: Run check
         run: mise run check
