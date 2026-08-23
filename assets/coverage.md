@@ -78,7 +78,7 @@ an autolink <https://support.typora.io/>, and a footnote for export behavior.[^e
 
 > 好的**技术文档**不仅记录结果，也让读者理解*约束*、判断依据和下一步行动。
 >
-> Documentation should preserve *context* across languages and export formats.
+> Documentation should preserve _context_ across languages and export formats.
 >
 > ```shell
 > echo 1
@@ -266,7 +266,7 @@ sequenceDiagram
 饼图
 
 ```mermaid
-pie title Document coverage / 文档覆盖 / 文書カバレッジ
+pie title Document coverage
   "Typography 排版" : 40
   "Data 数据" : 35
   "Export 导出" : 25
@@ -291,8 +291,6 @@ gitGraph
    commit
 
 ```
-
-
 
 ### Details / 折叠内容
 
