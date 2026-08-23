@@ -788,6 +788,16 @@ content {
     .md-toc-content {
       margin: 0;
       padding: 0;
+
+      // Typora draws the empty-TOC placeholder absolutely positioned at 2em, so it
+      // contributes no height and spills out of the frame. Let it flow and take the
+      // same meta treatment as the rest of the block.
+      &:empty::before {
+        position: static;
+        color: $muted;
+        font-family: $mono-font;
+        font-size: 0.8rem;
+      }
     }
 
     .md-toc-item {

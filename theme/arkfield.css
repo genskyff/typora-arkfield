@@ -597,6 +597,12 @@ content {
   margin: 0;
   padding: 0;
 }
+#write .md-toc .md-toc-content:empty::before {
+  position: static;
+  color: var(--ark-muted);
+  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.8rem;
+}
 #write .md-toc .md-toc-item {
   display: grid;
   grid-template-columns: 1.2rem minmax(0, 1fr);
