@@ -153,7 +153,7 @@ content {
   content: "";
   position: absolute;
   inset: auto 0 0;
-  height: 2px;
+  height: 4px;
   background: linear-gradient(90deg, var(--ark-signal) 0 4rem, var(--ark-ink) 4rem);
 }
 #write h2 {
