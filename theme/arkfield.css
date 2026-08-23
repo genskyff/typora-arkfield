@@ -53,12 +53,7 @@
   --search-select-text-color: var(--ark-paper);
   --rawblock-edit-panel-bd: var(--ark-paper);
   --monospace: Fira Code, SFMono-Regular, Consolas, Liberation Mono, monospace;
-  --node-fill: #f2f2f0;
-  --node-text-color: #191919;
-  --cluster-fill: #fafaf8;
-  --mermaid-background: #fafaf8;
-  --mermaid-font-family: Space Grotesk, IBM Plex Sans, Bahnschrift, Segoe UI, system-ui, sans-serif;
-  --mermaid-flowchart-curve: linear;
+  --mermaid-theme: default;
 }
 
 html {
@@ -507,16 +502,6 @@ content {
 #write .md-fences-advanced .md-diagram-panel-preview svg {
   display: block;
   margin-inline: auto;
-  overflow: visible;
-}
-#write .md-fences-advanced .pieTitleText {
-  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
-  font-size: 1.05rem;
-  font-weight: 700;
-}
-#write .md-fences-advanced .md-diagram-panel-error {
-  color: var(--ark-error);
-  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 #write pre.md-meta-block {
   padding: 0.8rem 1rem;

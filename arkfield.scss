@@ -40,7 +40,8 @@ $palette: (
   @return map.get($palette, $name);
 }
 
-// Themeable reference; use `raw()` instead where a literal colour is required.
+// Themeable reference. `raw()` stays available for the rare place that needs a
+// literal colour rather than a custom property.
 @function ark($name) {
   $_: raw($name);
 
@@ -106,17 +107,12 @@ $typora-vars: (
   search-select-text-color: $paper,
   rawblock-edit-panel-bd: $paper,
   monospace: $mono-font,
-);
-
-// Typora builds the Mermaid theme in JavaScript from `getComputedStyle(document.body)`,
-// so these have to resolve to literal values rather than `var()` references.
-$mermaid-vars: (
-  node-fill: raw(canvas),
-  node-text-color: raw(ink),
-  cluster-fill: raw(paper),
-  mermaid-background: raw(paper),
-  mermaid-font-family: $tech-font,
-  mermaid-flowchart-curve: linear,
+  // Diagrams keep Mermaid's own theme. Naming it explicitly matters: left unset,
+  // Typora takes the branch that builds themeVariables out of `--node-fill` and
+  // friends, and an unset `--node-fill` reaches Mermaid as an empty primaryColor.
+  // Exports render with Mermaid's defaults regardless, so this also keeps the
+  // editor and the exported document showing the same diagram.
+  mermaid-theme: default,
 );
 
 $heading-scale: (
@@ -236,10 +232,6 @@ $unordered-marker-depth: 12;
   }
 
   @each $name, $value in $typora-vars {
-    --#{$name}: #{$value};
-  }
-
-  @each $name, $value in $mermaid-vars {
     --#{$name}: #{$value};
   }
 }
@@ -680,24 +672,10 @@ content {
       padding: 0;
     }
 
-    // Mermaid centres titles without measuring them, so a long one overruns the
-    // viewBox. The diagram is narrower than the column: let it use that slack
-    // instead of being clipped, and bring the 25px default into the type scale.
+    // Block, not inline, so the line box under the drawing does not add a gap.
     .md-diagram-panel-preview svg {
       display: block;
       margin-inline: auto;
-      overflow: visible;
-    }
-
-    .pieTitleText {
-      font-family: $tech-font;
-      font-size: 1.05rem;
-      font-weight: 700;
-    }
-
-    .md-diagram-panel-error {
-      color: $error;
-      font-family: $mono-font;
     }
   }
 
