@@ -483,13 +483,35 @@ content {
   background: linear-gradient(90deg, var(--ark-signal) 0 4rem, var(--ark-ink) 4rem);
   pointer-events: none;
 }
-#write
-  .md-fences:not(.md-fences-advanced)
-  :is(.CodeMirror, .CodeMirror-scroll, .CodeMirror-gutters) {
-  background: var(--ark-paper);
-}
 #write .md-fences:not(.md-fences-advanced) .CodeMirror-lines {
   padding-block: 0.65rem;
+}
+#write .md-fences :is(.CodeMirror, .CodeMirror-scroll, .CodeMirror-gutters) {
+  background: var(--ark-paper);
+}
+#write .md-fences-advanced {
+  margin: 1.5rem 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--ark-rule);
+  border-top: 0;
+  background:
+    linear-gradient(90deg, var(--ark-signal) 0 4rem, var(--ark-ink) 4rem) top/100% 2px no-repeat,
+    var(--ark-paper);
+}
+#write .md-fences-advanced .md-diagram-panel {
+  margin: 0;
+}
+#write .md-fences-advanced .md-diagram-panel-preview svg {
+  overflow: visible;
+}
+#write .md-fences-advanced .pieTitleText {
+  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+#write .md-fences-advanced .md-diagram-panel-error {
+  color: var(--ark-error);
+  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 #write pre.md-meta-block {
   padding: 0.8rem 1rem;
@@ -525,12 +547,19 @@ content {
   font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 #write .md-rawblock {
+  padding: 0.85rem 1rem;
   border: 1px solid var(--ark-rule);
   border-radius: 2px;
   border-top: 0;
   background:
     linear-gradient(90deg, var(--ark-signal) 0 4rem, var(--ark-ink) 4rem) top/100% 2px no-repeat,
     var(--ark-paper);
+}
+#write .md-rawblock-container > :first-child {
+  margin-top: 0;
+}
+#write .md-rawblock-container > :last-child {
+  margin-bottom: 0;
 }
 #write .md-rawblock-input,
 #write .md-htmlblock {
@@ -750,6 +779,55 @@ content {
 #write ul ul ul ul ul ul ul ul ul ul ul ul > li:not(.md-task-list-item, .task-list-item)::marker {
   content: "■  ";
   font-size: 0.68em;
+}
+
+body:not(.typora-export) #write figure {
+  margin-top: 2.6rem;
+}
+
+#write .md-grid-board {
+  width: auto;
+  border-collapse: separate;
+  background: none;
+}
+#write .md-grid-board :is(td, th) {
+  padding: 0;
+  border: 0;
+}
+#write .md-grid-board tbody tr,
+#write .md-grid-board tbody tr:nth-child(even),
+#write .md-grid-board tbody tr:hover {
+  background: none;
+}
+#write .md-grid-board tr[row="1"] {
+  background: rgba(25, 25, 25, 0.08);
+}
+#write .md-grid-board .md-grid-ext {
+  background: rgba(25, 25, 25, 0.12);
+}
+#write .md-grid-board tr[row="1"] .md-grid-ext {
+  background: rgba(25, 25, 25, 0.2);
+}
+#write .md-grid-board a {
+  text-decoration: none;
+}
+#write .md-grid-board :is(a.md-active, a:hover),
+#write .md-grid-board tr[row="1"] :is(a.md-active, a:hover) {
+  border-color: var(--ark-ink);
+  background: var(--ark-signal);
+}
+
+#write .md-grid-board-wrap .popover-title {
+  padding: 0.4rem 0.6rem;
+  border-radius: 0;
+}
+#write .md-grid-board-wrap input {
+  padding: 0 0.2em;
+  border: 1px solid var(--ark-rule);
+  background: var(--ark-paper);
+  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .md-lang {
@@ -1221,6 +1299,7 @@ body.typora-export #write {
 
 @media screen {
   #write .md-htmlblock:has(details, [style*="page-break-after"]) {
+    padding: 0;
     border: 0;
     background: transparent;
   }

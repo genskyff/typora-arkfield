@@ -642,12 +642,44 @@ content {
       pointer-events: none;
     }
 
-    :is(.CodeMirror, .CodeMirror-scroll, .CodeMirror-gutters) {
-      background: $paper;
-    }
-
     .CodeMirror-lines {
       padding-block: 0.65rem;
+    }
+  }
+
+  // CodeMirror inherits the fence background, which would repeat the signal rule
+  // inside the editor; both fence kinds need it painted out.
+  .md-fences :is(.CodeMirror, .CodeMirror-scroll, .CodeMirror-gutters) {
+    background: $paper;
+  }
+
+  // Rendered diagrams (Mermaid, sequence, flow) get the same frame as a code fence.
+  .md-fences-advanced {
+    margin: 1.5rem 0;
+    padding: 0.85rem 1rem;
+    border: 1px solid $rule;
+    @include signal-top;
+
+    .md-diagram-panel {
+      margin: 0;
+    }
+
+    // Mermaid centres titles without measuring them, so a long one overruns the
+    // viewBox. The diagram is narrower than the column: let it use that slack
+    // instead of being clipped, and bring the 25px default into the type scale.
+    .md-diagram-panel-preview svg {
+      overflow: visible;
+    }
+
+    .pieTitleText {
+      font-family: $tech-font;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .md-diagram-panel-error {
+      color: $error;
+      font-family: $mono-font;
     }
   }
 
@@ -689,10 +721,16 @@ content {
     }
   }
 
+  // Raw HTML and math blocks are framed, so their rendered content needs the inset.
   .md-rawblock {
+    padding: 0.85rem 1rem;
     border: 1px solid $rule;
     border-radius: $radius;
     @include signal-top;
+  }
+
+  .md-rawblock-container {
+    @include trim-flow;
   }
 
   .md-rawblock-input,
@@ -884,6 +922,74 @@ $unordered-list-selector: "#write ul";
 }
 
 // Hybrid editor-only states: Markdown metadata, search, CodeMirror and edit panels.
+
+// Typora gives `.ty-table-edit` an inline `margin-top: -<its own height>`, so the
+// toolbar hangs in the figure's top margin rather than over the table. Reserve a row
+// for it there; exports have no toolbar and keep the normal rhythm.
+body:not(.typora-export) #write figure {
+  margin-top: 2.6rem;
+}
+
+// Table size picker. It is a real <table> living inside #write, so the document table
+// rules have to be held off it, and Typora's hardcoded greys mapped onto the palette:
+// ink shading marks the current extent, signal marks the new selection.
+#write .md-grid-board {
+  width: auto;
+  border-collapse: separate;
+  background: none;
+
+  :is(td, th) {
+    padding: 0;
+    border: 0;
+  }
+
+  tbody tr {
+    &,
+    &:nth-child(even),
+    &:hover {
+      background: none;
+    }
+  }
+
+  tr[row="1"] {
+    background: tint(ink, 0.08);
+  }
+
+  .md-grid-ext {
+    background: tint(ink, 0.12);
+  }
+
+  tr[row="1"] .md-grid-ext {
+    background: tint(ink, 0.2);
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  :is(a.md-active, a:hover),
+  tr[row="1"] :is(a.md-active, a:hover) {
+    border-color: $ink;
+    background: $signal;
+  }
+}
+
+#write .md-grid-board-wrap {
+  .popover-title {
+    padding: 0.4rem 0.6rem;
+    border-radius: 0;
+  }
+
+  input {
+    padding: 0 0.2em;
+    border: 1px solid $rule;
+    background: $paper;
+    font-family: $mono-font;
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
 .md-lang {
   color: $muted;
   font-family: $tech-font;
@@ -1334,6 +1440,7 @@ body.typora-export {
 
 @media screen {
   #write .md-htmlblock:has(details, [style*="page-break-after"]) {
+    padding: 0;
     border: 0;
     background: transparent;
   }
