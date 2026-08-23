@@ -1288,8 +1288,9 @@ button {
   color: $paper;
 }
 
-.btn-primary:hover,
-.btn-default:hover {
+// Preferences renders its own `.btn` controls; leave those to Typora rather than
+// dropping the editor's signal marker into that window.
+:is(.btn-primary, .btn-default):hover:not(.ty-preferences *) {
   border-color: $ink;
   @include signal-hit;
 }
@@ -1361,15 +1362,33 @@ footer.ty-footer {
   }
 }
 
+// Preferences is a separate window that keeps Typora's own controls. The signal
+// marker reads as an editor affordance, so selection here stays on the ink scale;
+// `.export-item.active` already resolves through `--active-file-bg-color`.
 .ty-preferences {
   .window-content {
     background: $canvas;
     color: $ink;
   }
 
-  .nav-group-item.active,
-  .export-item.active {
-    @include signal-hit;
+  .nav-group-item.active {
+    background: tint(ink, 0.07);
+    color: $ink;
+  }
+
+  // Export is the only pane Typora fills with a tinted card; its padding already
+  // groups the form, so drop the slab and let it read like every other pane.
+  .export-detail {
+    background: none;
+    color: $ink;
+  }
+
+  // Typora ships `prefers-color-scheme: dark` rules for this window that would drop
+  // slate panels into a light theme when the OS is dark.
+  .export-item.active,
+  .export-items-list-control {
+    background: tint(ink, 0.07);
+    color: $ink;
   }
 }
 

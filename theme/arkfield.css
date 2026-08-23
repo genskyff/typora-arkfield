@@ -1133,8 +1133,7 @@ button {
   color: var(--ark-paper);
 }
 
-.btn-primary:hover,
-.btn-default:hover {
+:is(.btn-primary, .btn-default):hover:not(.ty-preferences *) {
   border-color: var(--ark-ink);
   background: var(--ark-signal);
   color: var(--ark-ink);
@@ -1212,9 +1211,17 @@ footer.ty-footer {
   background: var(--ark-canvas);
   color: var(--ark-ink);
 }
-.ty-preferences .nav-group-item.active,
-.ty-preferences .export-item.active {
-  background: var(--ark-signal);
+.ty-preferences .nav-group-item.active {
+  background: rgba(25, 25, 25, 0.07);
+  color: var(--ark-ink);
+}
+.ty-preferences .export-detail {
+  background: none;
+  color: var(--ark-ink);
+}
+.ty-preferences .export-item.active,
+.ty-preferences .export-items-list-control {
+  background: rgba(25, 25, 25, 0.07);
   color: var(--ark-ink);
 }
 
