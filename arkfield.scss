@@ -15,10 +15,10 @@
 // can never drift apart.
 $palette: (
   ink: #191919,
-  soft: #3f3f3a,
-  muted: #686861,
+  soft: #33332e,
+  muted: #55554e,
   char: #8a8a82,
-  comment: #85857d,
+  comment: #5f5f58,
   blur: #9c9c95,
   scrollbar: #8b8b84,
   rule: #d7d7d1,
@@ -77,7 +77,7 @@ $typora-vars: (
   md-char-color: ark(char),
   meta-content-color: $muted,
   blur-text-color: ark(blur),
-  heading-char-color: $muted,
+  heading-char-color: ark(char),
   drag-placeholder-color: $signal,
   primary-color: $ink,
   primary-btn-border-color: $ink,
@@ -148,7 +148,7 @@ $heading-scale: (
 );
 
 $syntax-colors: (
-  ".CodeMirror-linenumber, .cm-comment": ark(comment),
+  ".cm-comment": ark(comment),
   ".cm-string, .cm-string-2, .cm-attribute, .cm-link": $verified,
   ".cm-number, .cm-atom, .cm-builtin": ark(warning),
   ".cm-def, .cm-variable-2, .cm-variable-3, .cm-property": ark(info),
@@ -412,7 +412,6 @@ content {
 
   dd {
     margin: 0.35rem 0 0.8rem 1.5rem;
-    color: $soft;
   }
 
   a {
@@ -462,7 +461,7 @@ content {
 
   rt {
     color: $muted;
-    font-size: 0.62em;
+    font-size: 0.72em;
     letter-spacing: 0.04em;
   }
 
@@ -509,7 +508,6 @@ content {
     border-block: 1px solid $rule;
     border-left: 3px solid $signal;
     background: tint(signal, 0.05);
-    color: $soft;
     @include trim-flow;
   }
 
@@ -672,9 +670,23 @@ content {
     font-family: $mono-font;
   }
 
+  // Reference definitions. Typora fades the whole block and hardcodes a cool grey on
+  // the `[^` marker, both of which read as foreign here.
   :is(.md-def-link, .md-def-footnote) {
+    opacity: 1;
     color: $muted;
     font-size: 0.875rem;
+
+    .md-def-name {
+      color: $ink;
+      font-family: $mono-font;
+
+      &::before,
+      &::after {
+        color: ark(char);
+        font-family: $mono-font;
+      }
+    }
   }
 
   .md-rawblock {
@@ -763,10 +775,15 @@ content {
     }
   }
 
+  // A footnote reference is a pointer, so it takes the signal marker rather than the
+  // green that sat outside the palette.
   .md-footnote {
-    border-radius: $radius;
-    background: $canvas;
-    color: $verified;
+    padding: 0.1em 0.4em;
+    border-radius: 0;
+    background: tint(signal, 0.55);
+    color: $ink;
+    font-family: $tech-font;
+    font-weight: 700;
   }
 
   .footnotes-area {

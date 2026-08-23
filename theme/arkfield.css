@@ -7,10 +7,10 @@
 }
 :root {
   --ark-ink: #191919;
-  --ark-soft: #3f3f3a;
-  --ark-muted: #686861;
+  --ark-soft: #33332e;
+  --ark-muted: #55554e;
   --ark-char: #8a8a82;
-  --ark-comment: #85857d;
+  --ark-comment: #5f5f58;
   --ark-blur: #9c9c95;
   --ark-scrollbar: #8b8b84;
   --ark-rule: #d7d7d1;
@@ -29,7 +29,7 @@
   --md-char-color: var(--ark-char);
   --meta-content-color: var(--ark-muted);
   --blur-text-color: var(--ark-blur);
-  --heading-char-color: var(--ark-muted);
+  --heading-char-color: var(--ark-char);
   --drag-placeholder-color: var(--ark-signal);
   --primary-color: var(--ark-ink);
   --primary-btn-border-color: var(--ark-ink);
@@ -241,7 +241,6 @@ content {
 }
 #write dd {
   margin: 0.35rem 0 0.8rem 1.5rem;
-  color: var(--ark-soft);
 }
 #write a {
   color: inherit;
@@ -282,7 +281,7 @@ content {
 }
 #write rt {
   color: var(--ark-muted);
-  font-size: 0.62em;
+  font-size: 0.72em;
   letter-spacing: 0.04em;
 }
 #write abbr[title] {
@@ -326,7 +325,6 @@ content {
   border-block: 1px solid var(--ark-rule);
   border-left: 3px solid var(--ark-signal);
   background: rgba(255, 250, 0, 0.05);
-  color: var(--ark-soft);
 }
 #write blockquote > :first-child {
   margin-top: 0;
@@ -513,8 +511,18 @@ content {
   font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 #write :is(.md-def-link, .md-def-footnote) {
+  opacity: 1;
   color: var(--ark-muted);
   font-size: 0.875rem;
+}
+#write :is(.md-def-link, .md-def-footnote) .md-def-name {
+  color: var(--ark-ink);
+  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+#write :is(.md-def-link, .md-def-footnote) .md-def-name::before,
+#write :is(.md-def-link, .md-def-footnote) .md-def-name::after {
+  color: var(--ark-char);
+  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 #write .md-rawblock {
   border: 1px solid var(--ark-rule);
@@ -602,9 +610,12 @@ content {
   text-decoration: none;
 }
 #write .md-footnote {
-  border-radius: 2px;
-  background: var(--ark-canvas);
-  color: var(--ark-verified);
+  padding: 0.1em 0.4em;
+  border-radius: 0;
+  background: rgba(255, 250, 0, 0.55);
+  color: var(--ark-ink);
+  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-weight: 700;
 }
 #write .footnotes-area {
   margin-top: 2.5rem;
@@ -772,9 +783,7 @@ content {
   font-variant-numeric: tabular-nums;
   text-align: right;
 }
-.cm-s-inner .CodeMirror-linenumber,
 .cm-s-inner .cm-comment,
-.cm-s-typora-default .CodeMirror-linenumber,
 .cm-s-typora-default .cm-comment {
   color: var(--ark-comment);
 }
