@@ -13,6 +13,8 @@ languages:
 status: preview
 ---
 
+---
+
 # Arkfield Theme Showcase
 
 **FIELD DOCUMENT / 主题展示 / テーマショーケース**
@@ -24,8 +26,6 @@ Arkfield は、技術文書のために設計された Typora テーマです。
 Arkfield is a Typora theme for technical documents, multilingual notes, study guides, and export-ready reports.
 
 [TOC]
-
----
 
 ## 01 / Typography / 排版层级
 
@@ -90,6 +90,8 @@ an autolink <https://support.typora.io/>, and a footnote for export behavior.[^e
 
 ### Ordered workflow / 有序流程
 
+有序列表
+
 1. 收集需求 / Collect requirements
    1. 明确读者与输出格式
    2. 确认中日英混排范围
@@ -101,6 +103,8 @@ an autolink <https://support.typora.io/>, and a footnote for export behavior.[^e
    2. 检查 HTML 与 PDF 导出
 
 ### Nested system / 多层无序列表
+
+无序列表
 
 - 文档系统 / Document system
   - 内容层 / Content layer
@@ -114,12 +118,16 @@ an autolink <https://support.typora.io/>, and a footnote for export behavior.[^e
 
 ### Task list / 任务列表
 
+任务列表
+
 - [x] 确认主题与字体资源 / Theme and font assets verified
 - [x] 覆盖常用 Markdown 格式 / Common Markdown styles covered
 - [ ] 检查最终发布包 / Inspect the release package
 - [ ] 导出 HTML 与 PDF 样例 / Export HTML and PDF samples
 
 ### Definition list / 定义列表
+
+定义列表
 
 <dl>
   <dt>INK / 炭黑</dt>
@@ -133,6 +141,8 @@ an autolink <https://support.typora.io/>, and a footnote for export behavior.[^e
 ## 04 / Status messages / 状态提示
 
 ### GitHub Alerts
+
+提示
 
 > [!NOTE]
 > 信息 / 情報 / Information：记录背景、来源或不会阻断流程的补充说明。
@@ -149,8 +159,6 @@ an autolink <https://support.typora.io/>, and a footnote for export behavior.[^e
 > [!CAUTION]
 > 注意 / 注意 / Caution：可能导致错误结果或数据损失的高优先级提醒。
 
----
-
 ## 05 / Data and media / 数据与媒体
 
 ### Data table / 数据表
@@ -165,6 +173,8 @@ an autolink <https://support.typora.io/>, and a footnote for export behavior.[^e
 
 ### Image and caption / 图片与说明
 
+图片
+
 ![Original Arkfield geometry sample](./coverage-figure.svg "Arkfield geometry and signal system")
 
 _Figure 01 / 图 01 / 図 01 — Original geometry composed from grid lines, ink blocks, and signal yellow._
@@ -172,6 +182,8 @@ _Figure 01 / 图 01 / 図 01 — Original geometry composed from grid lines, ink
 ## 06 / Code and mathematics / 代码与公式
 
 ### Rust code block / Rust 代码块
+
+Rust 代码块
 
 ```rust
 #[derive(Debug)]
@@ -190,6 +202,8 @@ impl FieldNode<'_> {
 ```
 
 ### JSON configuration / JSON 配置
+
+JSON 代码块
 
 ```json
 {
@@ -223,6 +237,8 @@ $$
 
 ### Flowchart / 流程图
 
+流程图
+
 ```mermaid
 flowchart LR
   A[Draft / 草稿] --> B{Review / 审查}
@@ -231,6 +247,8 @@ flowchart LR
 ```
 
 ### Sequence diagram / 时序图
+
+时序图
 
 ```mermaid
 sequenceDiagram
@@ -245,6 +263,8 @@ sequenceDiagram
 
 ### Pie chart / 饼图
 
+饼图
+
 ```mermaid
 pie title Document coverage / 文档覆盖 / 文書カバレッジ
   "Typography 排版" : 40
@@ -252,7 +272,31 @@ pie title Document coverage / 文档覆盖 / 文書カバレッジ
   "Export 导出" : 25
 ```
 
+### Git Graph
+
+```mermaid
+---
+title: Example Git diagram
+---
+gitGraph
+   commit
+   commit
+   branch develop
+   checkout develop
+   commit
+   commit
+   checkout main
+   merge develop
+   commit
+   commit
+
+```
+
+
+
 ### Details / 折叠内容
+
+折叠内容
 
 <details>
   <summary>Release checklist / 发布检查 / リリース確認</summary>
