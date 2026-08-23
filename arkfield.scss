@@ -1,0 +1,1453 @@
+@use "sass:list";
+@use "sass:map";
+
+// Arkfield: Endfield family + moderate depth, without protected art or branding.
+
+@font-face {
+  font-family: "Fira Code";
+  src: url("./arkfield/FiraCode-VF.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 300 700;
+}
+
+$palette: (
+  ink: #191919,
+  paper: #fafaf8,
+  canvas: #f2f2f0,
+  rule: #d7d7d1,
+  muted: #686861,
+  signal: #fffa00,
+  verified: #00754a,
+  info: #315b76,
+  important: #6843a5,
+  warning: #8a4b00,
+  error: #d92e16,
+);
+
+$ink: var(--ark-ink);
+$paper: var(--ark-paper);
+$canvas: var(--ark-canvas);
+$rule: var(--ark-rule);
+$muted: var(--ark-muted);
+$signal: var(--ark-signal);
+$verified: var(--ark-verified);
+$info: var(--ark-info);
+$important: var(--ark-important);
+$warning: var(--ark-warning);
+$error: var(--ark-error);
+$body-font:
+  "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+$ja-font: "Noto Sans JP", "Source Han Sans JP", "Yu Gothic UI", Meiryo, $body-font;
+$tech-font: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+$mono-font: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+// Typora reads these variables throughout the editor shell. Keeping the mapping here
+// is both shorter and easier to audit against the current built-in base styles.
+$typora-vars: (
+  bg-color: $canvas,
+  text-color: $ink,
+  select-text-bg-color: $signal,
+  select-text-font-color: $ink,
+  md-char-color: #8a8a82,
+  meta-content-color: $muted,
+  blur-text-color: #9c9c95,
+  heading-char-color: $muted,
+  drag-placeholder-color: $signal,
+  primary-color: $ink,
+  primary-btn-border-color: $ink,
+  primary-btn-text-color: $paper,
+  panel-border-color: $rule,
+  table-border-color: $rule,
+  border-color: $rule,
+  window-border: 1px solid $rule,
+  window-border-color: $rule,
+  side-bar-bg-color: $paper,
+  side-bar-menu-active-tint: $ink,
+  control-text-color: $muted,
+  control-text-hover-color: $ink,
+  active-toggle-btn-color: $ink,
+  active-file-bg-color: "rgb(25 25 25 / 7%)",
+  active-file-text-color: $ink,
+  active-file-border-color: $ink,
+  item-hover-bg-color: "rgb(25 25 25 / 8%)",
+  item-hover-text-color: $ink,
+  focus-ring-color: "rgb(255 250 0 / 55%)",
+  search-hit-bg-color: "rgb(255 250 0 / 52%)",
+  search-select-bg-color: $ink,
+  search-select-text-color: $paper,
+  color-popover-bg-color: $paper,
+  rawblock-edit-panel-bd: $paper,
+  monospace: $mono-font,
+);
+
+$heading-scale: (
+  h1: (
+    size: 2.15rem,
+    margin: 2.2rem 0 1.1rem,
+    tracking: -0.025em,
+  ),
+  h2: (
+    size: 1.55rem,
+    margin: 1.85rem 0 0.9rem,
+    tracking: -0.015em,
+  ),
+  h3: (
+    size: 1.25rem,
+    margin: 1.55rem 0 0.75rem,
+    tracking: 0,
+  ),
+  h4: (
+    size: 1.08rem,
+    margin: 1.25rem 0 0.6rem,
+    tracking: 0,
+  ),
+  h5: (
+    size: 1.08rem,
+    margin: 1.25rem 0 0.6rem,
+    tracking: 0.01em,
+  ),
+  h6: (
+    size: 1.08rem,
+    margin: 1.25rem 0 0.6rem,
+    tracking: 0.02em,
+  ),
+);
+
+$syntax-colors: (
+  ".CodeMirror-linenumber, .cm-comment": #85857d,
+  ".cm-string, .cm-string-2, .cm-attribute, .cm-link": $verified,
+  ".cm-number, .cm-atom, .cm-builtin": $warning,
+  ".cm-def, .cm-variable-2, .cm-variable-3, .cm-property": $info,
+);
+
+$alerts: (
+  note: (
+    color: $info,
+    background: #edf4f8,
+  ),
+  important: (
+    color: $important,
+    background: #f4f0fa,
+  ),
+  warning: (
+    color: $warning,
+    background: #fff5e6,
+  ),
+  tip: (
+    color: $verified,
+    background: #eaf5ef,
+  ),
+  caution: (
+    color: $error,
+    background: #fff0ed,
+  ),
+);
+
+$unordered-markers: (("●", 1em), ("○", 0.72em), ("■", 0.68em));
+$unordered-marker-depth: 12;
+
+@mixin trim-flow($priority: null) {
+  > :first-child {
+    margin-top: 0 $priority;
+  }
+
+  > :last-child {
+    margin-bottom: 0 $priority;
+  }
+}
+
+@mixin frame($background: $canvas, $border: $rule) {
+  border: 1px solid $border;
+  border-radius: 2px;
+  background: $background;
+}
+
+@mixin engineering-grid {
+  background-color: $canvas;
+  background-image:
+    linear-gradient(rgb(25 25 25 / 4%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(25 25 25 / 4%) 1px, transparent 1px);
+  background-size: 5.5rem 5.5rem;
+}
+
+@function signal-rule($signal-end: 4rem) {
+  @return linear-gradient(90deg, $signal 0 $signal-end, $ink $signal-end);
+}
+
+@mixin signal-top($height: 2px, $signal-end: 4rem, $background: $paper) {
+  border-top: 0;
+  background:
+    signal-rule($signal-end) top / 100% $height no-repeat,
+    $background;
+}
+
+:root {
+  @each $name, $value in $palette {
+    --ark-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $typora-vars {
+    --#{$name}: #{$value};
+  }
+}
+
+// Foundation shared by the editor and native HTML/image exports.
+html {
+  background: $canvas;
+  font-size: 17px;
+}
+
+html,
+body {
+  color: $ink;
+  font-family: $body-font;
+}
+
+body {
+  background: $canvas;
+  line-height: 1.75;
+  letter-spacing: 0.005em;
+  -webkit-font-smoothing: antialiased;
+}
+
+content {
+  @include engineering-grid;
+}
+
+::selection,
+.in-text-selection {
+  background: $signal;
+  color: $ink;
+}
+
+::highlight(search-hit) {
+  background: rgb(255 250 0 / 52%);
+}
+
+::highlight(search-select) {
+  background: $ink;
+  color: $paper;
+}
+
+// Reading surface and Markdown elements. These selectors also survive native exports.
+#write {
+  box-sizing: border-box;
+  max-width: 980px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 3rem 4rem 10rem;
+  border-inline: 1px solid $rule;
+  background: $paper;
+  font-size: 1rem;
+  @include trim-flow(!important);
+
+  :is(h1, h2, h3, h4, h5, h6) {
+    position: relative;
+    color: $ink;
+    font-family: $tech-font;
+    font-weight: 700;
+    line-height: 1.25;
+
+    :is(code, tt) {
+      font-size: inherit;
+    }
+  }
+
+  @each $heading, $tokens in $heading-scale {
+    #{$heading} {
+      margin: map.get($tokens, margin);
+      font-size: map.get($tokens, size);
+      letter-spacing: map.get($tokens, tracking);
+    }
+  }
+
+  :is(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) {
+    margin-top: 1.1rem;
+  }
+
+  h1 {
+    padding-bottom: 0.65rem;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 2px;
+      background: signal-rule();
+    }
+  }
+
+  h2 {
+    padding: 0 0 0.45rem 1rem;
+    border-bottom: 0;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0.4em auto auto 0;
+      width: 0.4rem;
+      height: 0.4rem;
+      background: $ink;
+      box-shadow: 0.2rem 0.2rem 0 $signal;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 2px;
+      background: signal-rule();
+    }
+  }
+
+  :is(h3, h4, h5, h6) {
+    padding-left: 1rem;
+  }
+
+  h3 {
+    box-shadow: inset 3px 0 $signal;
+
+    &::after {
+      content: "";
+      display: block;
+      width: 2.5rem;
+      height: 2px;
+      margin-top: 0.3rem;
+      background: $ink;
+    }
+  }
+
+  h4 {
+    box-shadow: inset 3px 0 $ink;
+  }
+
+  h5 {
+    box-shadow: inset 2px 0 $signal;
+  }
+
+  h6 {
+    box-shadow: inset 2px 0 $ink;
+  }
+
+  :is(p, blockquote, ul, ol, dl, table, figure, details) {
+    margin-block: 0.95em;
+  }
+
+  p {
+    margin-block: 0.65em;
+    line-height: 1.68;
+  }
+
+  :where(:lang(ja)) {
+    font-family: $ja-font;
+  }
+
+  :is(ul, ol) {
+    padding-left: 1.6rem;
+  }
+
+  li {
+    padding-left: 0.15rem;
+
+    > p {
+      margin-block: 0.2rem;
+    }
+
+    &::marker {
+      color: $ink;
+      font-family: $tech-font;
+      font-weight: 700;
+    }
+
+    + li {
+      margin-top: 0.35rem;
+    }
+
+    > :is(ul, ol) {
+      margin-block: 0.35rem;
+    }
+  }
+
+  dt {
+    font-family: $tech-font;
+    font-weight: 700;
+  }
+
+  dd {
+    margin: 0.35rem 0 0.8rem 1.5rem;
+    color: #3f3f3a;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgb(25 25 25 / 42%);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+
+    &:hover {
+      text-decoration-color: $ink;
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  strong {
+    font-weight: 700;
+    background: linear-gradient(transparent 62%, rgb(255 250 0 / 55%) 62%);
+  }
+
+  em {
+    color: #3f3f3a;
+  }
+
+  del {
+    color: $muted;
+    text-decoration-thickness: 1px;
+  }
+
+  u {
+    text-decoration-color: rgb(25 25 25 / 50%);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  :is(sub, sup) {
+    color: inherit;
+    font-family: inherit;
+    font-size: 0.72em;
+    font-weight: inherit;
+    line-height: 0;
+  }
+
+  ruby {
+    ruby-align: center;
+  }
+
+  rt {
+    color: $muted;
+    font-size: 0.62em;
+    letter-spacing: 0.04em;
+  }
+
+  abbr[title] {
+    text-decoration-color: $muted;
+    text-underline-offset: 0.18em;
+  }
+
+  :is(code, tt) {
+    padding: 0.1em 0.35em;
+    @include frame($paper, $ink);
+    border-bottom-width: 2px;
+    color: $ink;
+    font-family: $mono-font;
+    font-size: 0.875em;
+  }
+
+  :is(pre, .md-fences) :is(code, tt) {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-size: inherit;
+  }
+
+  kbd {
+    padding: 0.12em 0.45em;
+    border: 1px solid $ink;
+    border-bottom-width: 2px;
+    border-radius: 2px;
+    background: $paper;
+    box-shadow: none;
+    color: $ink;
+    font-family: $mono-font;
+    font-size: 0.78em;
+  }
+
+  mark {
+    padding-inline: 0.15em;
+    background: $signal;
+    color: $ink;
+  }
+
+  blockquote {
+    padding: 0.8rem 1rem;
+    border-block: 1px solid $rule;
+    border-left: 3px solid $signal;
+    background: rgb(255 250 0 / 5%);
+    color: #3f3f3a;
+    @include trim-flow;
+  }
+
+  .md-alert {
+    padding: 0.8rem 1rem;
+    border-left-width: 3px;
+    color: $ink;
+    @include trim-flow;
+
+    .md-alert-text {
+      font-family: $tech-font;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+  }
+
+  @each $state, $tokens in $alerts {
+    .md-alert.md-alert-#{$state} {
+      border-left-color: map.get($tokens, color);
+      background: map.get($tokens, background);
+    }
+
+    .md-alert-text-#{$state} {
+      color: map.get($tokens, color);
+    }
+  }
+
+  hr {
+    height: 1px;
+    margin: 2.25rem 0;
+    border: 0;
+    background: signal-rule(2rem);
+  }
+
+  details {
+    padding: 0.65rem 0.8rem;
+    border: 1px solid $rule;
+    @include signal-top;
+    @include trim-flow;
+
+    &[open] > summary {
+      margin-bottom: 0.6rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid $rule;
+    }
+  }
+
+  summary {
+    cursor: pointer;
+    font-family: $tech-font;
+    font-weight: 700;
+  }
+
+  figure {
+    overflow-x: auto;
+  }
+
+  figcaption,
+  caption {
+    padding: 0.45rem 0;
+    color: $muted;
+    font-size: 0.8rem;
+    text-align: left;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: $paper;
+    font-size: 0.875rem;
+    line-height: 1.55;
+
+    thead {
+      border-top: 2px solid $ink;
+    }
+
+    :is(th, td) {
+      padding: 0.55rem 0.75rem;
+      border: 1px solid $rule;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      border-color: $rule;
+      background: rgb(25 25 25 / 5%);
+      color: $ink;
+      font-family: $tech-font;
+      font-weight: 700;
+    }
+
+    tbody tr:nth-child(even) {
+      background: rgb(25 25 25 / 3%);
+    }
+
+    tbody tr:hover {
+      background: rgb(255 250 0 / 16%);
+    }
+  }
+
+  .md-fences:not(.md-fences-advanced) {
+    position: relative;
+    margin: 1.5rem 0;
+    padding: 0.85rem 1rem;
+    border: 1px solid $rule;
+    border-radius: 0;
+    @include signal-top;
+    color: $ink;
+    font-family: $mono-font;
+    font-size: 0.82rem;
+    line-height: 1.65;
+
+    &:has(.CodeMirror) {
+      padding: 0;
+    }
+
+    > .CodeMirror::before {
+      content: "";
+      position: absolute;
+      z-index: 10;
+      inset: 0 0 auto;
+      height: 2px;
+      background: signal-rule();
+      pointer-events: none;
+    }
+
+    :is(.CodeMirror, .CodeMirror-scroll, .CodeMirror-gutters) {
+      background: $paper;
+    }
+
+    .CodeMirror-lines {
+      padding-block: 0.65rem;
+    }
+  }
+
+  pre.md-meta-block {
+    padding: 0.8rem 1rem;
+    border: 1px solid $rule;
+    border-left: 2px solid $ink;
+    border-radius: 0;
+    @include signal-top(3px);
+    color: $ink;
+    font-family: $mono-font;
+    font-size: 0.8rem;
+
+    :is(.md-meta, .md-blockmeta) {
+      color: $ink;
+    }
+  }
+
+  :is(.md-comment, .md-tag, .md-attr, .md-blockmeta) {
+    color: $muted;
+    font-family: $mono-font;
+  }
+
+  :is(.md-def-link, .md-def-footnote) {
+    color: $muted;
+    font-size: 0.875rem;
+  }
+
+  .md-rawblock {
+    @include frame($paper);
+    @include signal-top;
+  }
+
+  .md-rawblock-input,
+  .md-htmlblock {
+    color: $ink;
+    font-family: $mono-font;
+  }
+
+  .md-toc {
+    padding: 0.9rem 1rem 1rem;
+    border: 1px solid $ink;
+    border-left: 3px solid $ink;
+    border-radius: 0;
+    background: $paper;
+
+    &::before {
+      content: "CONTENTS / 目录";
+      display: block;
+      margin-bottom: 0.45rem;
+      padding-bottom: 0.45rem;
+      background: signal-rule() bottom / 100% 2px no-repeat;
+      font-family: $tech-font;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+    }
+
+    .md-toc-content {
+      margin: 0;
+    }
+
+    .md-toc-item {
+      display: grid;
+      grid-template-columns: 1.2rem minmax(0, 1fr);
+      align-items: baseline;
+      padding-block: 0.15rem;
+      border-bottom: 1px solid $rule;
+
+      &::before {
+        content: "├";
+        color: $muted;
+        font-family: $mono-font;
+        font-size: 0.78rem;
+      }
+
+      &:first-child::before {
+        content: "┌";
+      }
+
+      &:last-child {
+        border-bottom: 0;
+
+        &::before {
+          content: "└";
+        }
+      }
+
+      &:hover {
+        background: rgb(25 25 25 / 5%);
+        box-shadow: inset 3px 0 $signal;
+      }
+
+      @for $level from 2 through 6 {
+        &.md-toc-h#{$level} .md-toc-inner {
+          padding-left: ($level - 1) * 0.75rem;
+        }
+      }
+    }
+
+    .md-toc-inner {
+      display: block;
+      margin-left: 0 !important;
+      border-bottom: 0;
+      color: $ink;
+      line-height: 1.5;
+      text-decoration: none;
+    }
+
+    .md-toc-inner:hover {
+      background: none;
+    }
+  }
+
+  .md-footnote {
+    border-radius: 2px;
+    background: $canvas;
+    color: $verified;
+  }
+
+  .footnotes-area {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid $rule;
+    color: $muted;
+  }
+
+  img {
+    max-width: 100%;
+    border: 1px solid $rule;
+    border-radius: 0;
+  }
+
+  .md-image > .md-meta {
+    color: $muted;
+    font-family: $mono-font;
+  }
+
+  .md-img-error > .md-meta {
+    color: $error;
+  }
+
+  :is(video, audio, iframe) {
+    max-width: 100%;
+    @include frame($canvas);
+  }
+
+  .md-math-block {
+    margin-block: 1.5rem;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid $ink;
+    @include signal-top;
+  }
+
+  .md-inline-math-container {
+    color: $ink;
+  }
+
+  :is(.md-task-list-item, .task-list-item) {
+    position: relative;
+    list-style: none;
+
+    > input[type="checkbox"] {
+      position: absolute;
+      top: 0.875em;
+      left: 0;
+      display: inline-grid;
+      box-sizing: border-box;
+      width: 1rem;
+      height: 1rem;
+      margin: 0 0 0 -1.45rem;
+      border: 1px solid $ink;
+      border-radius: 0;
+      background: $paper;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      place-content: center;
+      transform: translateY(-50%);
+
+      &::after {
+        content: "";
+        width: 0.25rem;
+        height: 0.5rem;
+        border: solid $ink;
+        border-width: 0 2px 2px 0;
+        opacity: 0;
+        transform: translateY(-0.06rem) rotate(45deg);
+      }
+
+      &:checked,
+      &[checked] {
+        background: $signal;
+      }
+
+      &:checked::after,
+      &[checked]::after {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+$unordered-list-selector: "#write ul";
+
+@for $level from 1 through $unordered-marker-depth {
+  $marker-index: (($level - 1) % list.length($unordered-markers)) + 1;
+  $marker: list.nth($unordered-markers, $marker-index);
+
+  #{$unordered-list-selector} > li:not(.md-task-list-item, .task-list-item)::marker {
+    content: "#{list.nth($marker, 1)}  ";
+    font-size: list.nth($marker, 2);
+  }
+
+  $unordered-list-selector: "#{$unordered-list-selector} ul";
+}
+
+// Hybrid editor-only states: Markdown metadata, search, CodeMirror and edit panels.
+.md-lang {
+  color: $muted;
+  font-family: $tech-font;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.md-search-hit {
+  background: rgb(255 250 0 / 52%);
+}
+
+:is(.md-search-select, .cm-search-hit.CodeMirror-selectedtext) {
+  background: $ink;
+  color: $paper;
+}
+
+.cm-s-inner,
+.cm-s-typora-default {
+  color: $ink;
+  font-family: $mono-font;
+
+  .CodeMirror-gutters {
+    border-right: 2px solid $rule;
+    margin-right: 0;
+    background: $paper;
+  }
+
+  .CodeMirror-linenumber {
+    padding-inline: 0.4rem;
+    color: $muted;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+
+  @each $selectors, $color in $syntax-colors {
+    #{$selectors} {
+      color: $color;
+    }
+  }
+
+  :is(.cm-keyword, .cm-operator, .cm-tag, .cm-qualifier) {
+    color: $ink;
+    font-weight: 700;
+  }
+
+  .CodeMirror-cursor {
+    border-left: 2px solid $ink;
+  }
+
+  .CodeMirror-selected,
+  &.CodeMirror-focused .CodeMirror-selected {
+    background: rgb(255 250 0 / 48%);
+  }
+
+  .cm-error {
+    background: $error;
+    color: $paper;
+  }
+}
+
+#typora-source {
+  background: $paper;
+
+  .CodeMirror {
+    max-width: 980px;
+    margin-inline: auto;
+    background: $paper;
+    color: $ink;
+  }
+
+  .cm-header {
+    color: $ink;
+    font-family: $tech-font;
+    font-weight: 700;
+  }
+
+  .cm-strong {
+    background: rgb(255 250 0 / 45%);
+  }
+
+  :is(.cm-link, .cm-string) {
+    color: $verified;
+  }
+
+  .cm-comment {
+    color: $muted;
+  }
+}
+
+:is(.code-tooltip, .md-table-resize-popover, .md-toc-tooltip, .md-rawblock-tooltip) {
+  border-color: $rule;
+  border-radius: 2px;
+  background: $paper;
+  color: $ink;
+  box-shadow: none;
+}
+
+.md-mathjax-midline,
+.md-mathblock-panel,
+.md-rawblock-control:not(.md-rawblock-tooltip) {
+  border-color: $rule;
+  background: $paper;
+  color: $ink;
+  font-family: $mono-font;
+}
+
+.ty-table-edit button:hover,
+.md-rawblock-tooltip-btn:hover,
+.md-image-btn:hover,
+.md-image-btn.selected {
+  background: $signal;
+  color: $ink;
+}
+
+.md-image-uploading-mask-wrapper {
+  border-radius: 2px;
+  background: rgb(25 25 25 / 82%);
+}
+
+.md-image-uploading-label {
+  color: $paper;
+  font-family: $tech-font;
+}
+
+// Typora 1.14 editor toolbar.
+.ty-editor-toolbar {
+  border: 1px solid $ink;
+  border-radius: 2px;
+  background: $paper;
+  color: $ink;
+  filter: none;
+  box-shadow: 5px 5px 0 rgb(25 25 25 / 12%);
+}
+
+.ty-editor-toolbar-btn {
+  border-radius: 1px;
+
+  &:is(.hover, :hover, .active) {
+    background: $signal;
+    color: $ink;
+    opacity: 1;
+  }
+}
+
+.ty-editor-toolbar-divider,
+.ty-editor-toolbar-menu-divider {
+  background: $rule;
+}
+
+.ty-editor-toolbar-menu {
+  @include frame($paper, $ink);
+  filter: none;
+  box-shadow: 5px 5px 0 rgb(25 25 25 / 12%);
+}
+
+.ty-editor-toolbar-menu-item {
+  border-radius: 1px;
+
+  &:is(:hover, .active) {
+    background: $signal;
+    color: $ink;
+  }
+}
+
+.ty-editor-toolbar-tooltip {
+  border-radius: 2px;
+  background: $ink;
+  color: $paper;
+  box-shadow: none;
+}
+
+// Application shell: sidebar, search, menus, dialogs, preview and preferences.
+#typora-sidebar {
+  border-right: 1px solid $rule;
+  background: $paper;
+  color: $ink;
+}
+
+.sidebar-tabs,
+.sidebar-footer,
+.ty-sidebar-search-panel {
+  border-color: $rule;
+}
+
+.sidebar-tab.active,
+.sidebar-tabs .active {
+  box-shadow: inset 0 -3px $ink;
+  color: $ink;
+}
+
+:is(.outline-item, .file-list-item, .file-node-content, .ty-search-item) {
+  border-radius: 0;
+}
+
+:is(.outline-item, .file-list-item, .file-node-content, .ty-search-item):hover {
+  background: rgb(25 25 25 / 8%);
+  color: $ink;
+}
+
+:is(.file-list-item.active, .file-list-item.select),
+.file-tree-node:is(.active, .select) > .file-node-background,
+.file-library-node.active > .file-node-background {
+  border-left: 3px solid $ink;
+  background: rgb(25 25 25 / 7%);
+  color: $ink;
+}
+
+.ty-search-item.select {
+  background: $signal;
+  color: $ink;
+}
+
+.outline-label:hover,
+.outline-active,
+.outline-item.select {
+  color: $ink;
+  font-weight: 700;
+}
+
+.outline-active {
+  background: rgb(25 25 25 / 7%);
+  box-shadow: none;
+}
+
+.ty-outline-hit {
+  background: $signal;
+  color: $ink;
+}
+
+#typora-quick-open,
+.modal-content,
+.popover,
+.context-menu,
+.dropdown-menu,
+.auto-suggest-container,
+#footer-word-count-info,
+#spell-check-panel {
+  @include frame($paper);
+  color: $ink;
+  box-shadow: none;
+}
+
+#md-searchpanel,
+.md-notification-container {
+  border-bottom: 1px solid $rule;
+  background: $paper;
+  color: $ink;
+  box-shadow: none;
+}
+
+.typora-quick-open-item.active,
+:is(.dropdown-menu, .context-menu) > li > a:hover,
+:is(.dropdown-menu, .context-menu) > .active > a,
+.ty-spell-check-panel-item:is(.ty-active, :hover) {
+  background: $signal;
+  color: $ink;
+}
+
+:is(.dropdown-menu, .context-menu) .divider {
+  background: $rule;
+}
+
+.modal-backdrop.in {
+  background: $paper;
+  opacity: 0.82;
+}
+
+.modal-header,
+.modal-footer {
+  border-color: $rule;
+}
+
+.btn,
+button {
+  border-radius: 2px;
+}
+
+.btn-primary {
+  border-color: $ink;
+  background: $ink;
+  color: $paper;
+}
+
+.btn-primary:hover,
+.btn-default:hover {
+  border-color: $ink;
+  background: $signal;
+  color: $ink;
+}
+
+:is(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
+  border-color: $rule;
+  border-radius: 2px;
+  background: $paper;
+  color: $ink;
+}
+
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid $ink;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px rgb(255 250 0 / 50%);
+}
+
+header,
+footer,
+.context-menu,
+.megamenu-content {
+  font-family: $tech-font;
+}
+
+header,
+footer.ty-footer {
+  border-color: $rule;
+  background: $paper;
+}
+
+.typora-sourceview-on #toggle-sourceview-btn,
+.on-focus-mode #toggle-focus-mode-btn,
+.ty-on-typewriter-mode #toggle-typewriter-mode-btn {
+  background: $signal;
+  color: $ink;
+}
+
+.megamenu-menu {
+  border-right: 1px solid $ink;
+  background: $ink;
+  color: $paper;
+  box-shadow: none;
+}
+
+.megamenu-menu-header {
+  border-color: rgb(250 250 248 / 25%);
+}
+
+.megamenu-menu-list li a:is(.active, :hover) {
+  background: $signal;
+  color: $ink;
+}
+
+.megamenu-content,
+.megamenu-menu-section {
+  background-color: $paper;
+  background-image: none;
+  color: $ink;
+}
+
+.megamenu-menu-panel :is(.btn, .long-btn) {
+  border-color: $ink;
+  border-radius: 2px;
+}
+
+.theme-preview-div {
+  border-radius: 2px;
+
+  &:is(:hover, .active) {
+    border-color: $ink;
+  }
+}
+
+.ty-preferences {
+  .window-content {
+    background: $canvas;
+    color: $ink;
+  }
+
+  .nav-group-item.active,
+  .export-item.active {
+    background: $signal;
+    color: $ink;
+  }
+}
+
+// Typora 1.14 file/media preview mode.
+#ty-preview {
+  background: $canvas;
+  color: $ink;
+}
+
+#ty-preview-banner {
+  border-bottom: 1px solid $rule;
+  background: $paper;
+  font-family: $tech-font;
+}
+
+#ty-preview-pill,
+#ty-preview-open-menu {
+  @include frame($paper, $ink);
+  box-shadow: 4px 4px 0 rgb(25 25 25 / 12%);
+  backdrop-filter: none;
+}
+
+#ty-preview-pill {
+  border-radius: 2px;
+
+  .ty-preview-btn:hover,
+  .ty-preview-btn:active {
+    background: $signal;
+    color: $ink;
+  }
+}
+
+#ty-preview-open-menu {
+  border-radius: 2px;
+
+  li:hover {
+    background: $signal;
+    color: $ink;
+  }
+
+  li.separator {
+    border-color: $rule;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: $canvas;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid $canvas;
+  border-radius: 0;
+  background: #8b8b84;
+}
+
+.on-focus-mode {
+  .md-end-block:not(.md-focus):not(.md-focus-container),
+  li[cid]:not(.md-focus-container) {
+    opacity: 0.28;
+  }
+
+  :is(.md-focus, .md-focus-container) {
+    opacity: 1;
+  }
+}
+
+// Native HTML and image export keep the document surface but omit editor chrome.
+body.typora-export {
+  @include engineering-grid;
+
+  #write {
+    min-width: 0;
+  }
+}
+
+.for-image #write {
+  min-height: 0;
+  padding: 2rem;
+  border: 0;
+}
+
+.typora-export-show-outline {
+  .typora-export-content {
+    max-width: 1320px;
+  }
+
+  .typora-export-sidebar {
+    margin-top: 0;
+    padding: 3rem 1rem;
+    border-right: 1px solid $rule;
+    background: $paper;
+    color: $muted;
+    font-family: $tech-font;
+  }
+
+  .typora-export-sidebar .outline-content {
+    padding: 3rem 1rem;
+  }
+
+  .outline-item-active > .outline-item .outline-label {
+    background: rgb(25 25 25 / 7%);
+    box-shadow: none;
+    color: $ink;
+  }
+}
+
+@media screen {
+  #write .md-htmlblock:has(details, [style*="page-break-after"]) {
+    border: 0;
+    background: transparent;
+  }
+
+  #write .md-htmlblock:has([style*="page-break-after"]) > .md-htmlblock-container {
+    min-height: 1px;
+  }
+
+  #write [style*="page-break-after"] {
+    position: relative;
+    height: 1px !important;
+    min-height: 0;
+    margin: 2rem 0;
+    border: 0 !important;
+    background: signal-rule(2rem);
+
+    &::after {
+      content: "PAGE BREAK";
+      position: absolute;
+      inset: 50% 0 auto auto;
+      padding-left: 0.55rem;
+      background: $paper;
+      color: $muted;
+      font-family: $tech-font;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      transform: translateY(-50%);
+    }
+  }
+}
+
+@media (max-width: 720px) {
+  #write {
+    padding: 2.25rem 1.5rem 8rem;
+    border-inline: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 16px;
+  }
+
+  #write {
+    padding-inline: 1.1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// PDF/print is a separate rendering context. Avoid whole-table break avoidance: it
+// causes long tables to overflow, while Typora already repeats thead and keeps rows intact.
+@media print {
+  :root {
+    --bg-color: #fff;
+    --text-color: #000;
+  }
+
+  .typora-export * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  html,
+  body {
+    border: 1px solid transparent;
+    background: #fff;
+    color: #000;
+  }
+
+  body.typora-export {
+    background-color: #fff !important;
+    background-image: none !important;
+  }
+
+  content,
+  #write {
+    border: 0;
+    background: #fff;
+    color: #000;
+  }
+
+  #write {
+    max-width: none;
+    min-height: 0;
+    padding: 0;
+
+    :is(h1, h2, h3, h4, h5, h6) {
+      break-after: avoid-page;
+      break-inside: avoid-page;
+    }
+
+    :is(pre, blockquote, img, svg, .md-alert, .md-math-block, .md-diagram-panel) {
+      break-inside: avoid-page;
+    }
+
+    :is(p, li) {
+      orphans: 3;
+      widows: 3;
+    }
+
+    .md-fences {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    [style*="page-break-after"] {
+      height: 0 !important;
+      margin: 0;
+      background: none;
+
+      &::after {
+        content: none;
+      }
+    }
+
+    table {
+      break-inside: auto;
+    }
+
+    thead {
+      display: table-header-group;
+    }
+
+    tr {
+      break-inside: avoid-page;
+    }
+
+    a {
+      color: #000;
+    }
+  }
+}

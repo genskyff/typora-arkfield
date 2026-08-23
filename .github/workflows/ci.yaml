@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "**"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Mise
+        uses: jdx/mise-action@v4
+
+      - name: Build theme
+        run: mise run build
+
+      - name: Check generated theme
+        run: git diff --exit-code -- theme/arkfield.css
+
+      - name: Run check
+        run: mise run check

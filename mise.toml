@@ -1,0 +1,12 @@
+[tools]
+"aqua:sass/dart-sass" = "latest"
+oxfmt = "latest"
+
+[tasks.build]
+run = ["mise x -- sass --no-source-map arkfield.scss:theme/arkfield.css", "mise run fmt"]
+
+[tasks.check]
+run = "mise x -- oxfmt --check"
+
+[tasks.fmt]
+run = "mise x -- oxfmt"

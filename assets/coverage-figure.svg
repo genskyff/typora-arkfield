@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" role="img" aria-labelledby="title desc">
+  <title id="title">Arkfield geometry sample</title>
+  <desc id="desc">An original black, off-white, and signal-yellow engineering diagram.</desc>
+  <defs>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#d7d7d1" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="960" height="360" fill="#fafaf8" />
+  <rect width="960" height="360" fill="url(#grid)" />
+  <path d="M0 300H620L740 180H960" fill="none" stroke="#191919" stroke-width="3" />
+  <path d="M620 300L740 180" fill="none" stroke="#fffa00" stroke-width="18" />
+  <rect x="72" y="72" width="312" height="112" fill="#191919" />
+  <rect x="72" y="184" width="196" height="12" fill="#fffa00" />
+  <text x="104" y="128" fill="#fafaf8" font-family="Segoe UI, sans-serif" font-size="28" font-weight="700">FIELD / 01</text>
+  <text x="104" y="162" fill="#fafaf8" font-family="Segoe UI, sans-serif" font-size="18">工程 · 技術 · SYSTEM</text>
+  <circle cx="768" cy="112" r="36" fill="#fffa00" stroke="#191919" stroke-width="3" />
+  <path d="M768 62V20M818 112H900" stroke="#191919" stroke-width="2" />
+</svg>
