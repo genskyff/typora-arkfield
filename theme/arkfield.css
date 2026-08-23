@@ -204,10 +204,9 @@ content {
   box-shadow: inset 2px 0 var(--ark-ink);
 }
 #write :is(p, blockquote, ul, ol, dl, table, figure, details) {
-  margin-block: 0.95em;
+  margin-block: 0.5rem;
 }
 #write p {
-  margin-block: 0.65em;
   line-height: 1.68;
 }
 #write :where(:lang(ja)) {
@@ -462,7 +461,7 @@ content {
 }
 #write .md-fences:not(.md-fences-advanced) {
   position: relative;
-  margin: 1.5rem 0 1.1rem;
+  margin-block: 0.5rem;
   padding: 0.3rem 1rem;
   border: 1px solid var(--ark-rule);
   border-top: 0;
@@ -493,7 +492,7 @@ content {
   background: var(--ark-paper);
 }
 #write .md-fences-advanced {
-  margin: 1.5rem 0 1.1rem;
+  margin-block: 0.5rem;
   padding: 0.85rem 1rem 0.5rem;
   border: 1px solid var(--ark-rule);
   border-top: 0;
@@ -678,7 +677,7 @@ content {
   background: var(--ark-canvas);
 }
 #write .md-math-block {
-  margin-block: 1.5rem;
+  margin-block: 0.5rem;
   padding: 0.8rem 1rem;
   border-bottom: 1px solid var(--ark-ink);
   border-top: 0;

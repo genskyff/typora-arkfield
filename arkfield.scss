@@ -61,6 +61,11 @@ $signal: ark(signal);
 $verified: ark(verified);
 $error: ark(error);
 $radius: 2px;
+
+// One gap for every block-level element. It is `rem`, not `em`, because code fences
+// and tables set their own smaller font size — `em` would silently shrink the gap
+// under exactly the blocks that need it most.
+$block-gap: 0.5rem;
 $body-font:
   "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
 $ja-font: "Noto Sans JP", "Source Han Sans JP", "Yu Gothic UI", Meiryo, $body-font;
@@ -367,11 +372,10 @@ content {
   }
 
   :is(p, blockquote, ul, ol, dl, table, figure, details) {
-    margin-block: 0.95em;
+    margin-block: $block-gap;
   }
 
   p {
-    margin-block: 0.65em;
     line-height: 1.68;
   }
 
@@ -628,7 +632,7 @@ content {
   // same inset so a fence is the same height in the editor and in the export.
   .md-fences:not(.md-fences-advanced) {
     position: relative;
-    margin: 1.5rem 0 1.1rem;
+    margin-block: $block-gap;
     padding: 0.3rem 1rem;
     border: 1px solid $rule;
     @include signal-top;
@@ -666,7 +670,7 @@ content {
   // Mermaid already leaves a 40px margin inside its own canvas, so the frame keeps
   // only a thin bottom inset instead of stacking a second gap under the drawing.
   .md-fences-advanced {
-    margin: 1.5rem 0 1.1rem;
+    margin-block: $block-gap;
     padding: 0.85rem 1rem 0.5rem;
     border: 1px solid $rule;
     @include signal-top;
@@ -871,7 +875,7 @@ content {
   }
 
   .md-math-block {
-    margin-block: 1.5rem;
+    margin-block: $block-gap;
     padding: 0.8rem 1rem;
     border-bottom: 1px solid $ink;
     @include signal-top;
