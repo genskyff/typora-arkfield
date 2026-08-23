@@ -10,12 +10,20 @@
   font-weight: 300 700;
 }
 
+// Every colour in the theme comes from this map, so the custom properties, the
+// translucent variants and the literal hex values Typora reads from JavaScript
+// can never drift apart.
 $palette: (
   ink: #191919,
-  paper: #fafaf8,
-  canvas: #f2f2f0,
-  rule: #d7d7d1,
+  soft: #3f3f3a,
   muted: #686861,
+  char: #8a8a82,
+  comment: #85857d,
+  blur: #9c9c95,
+  scrollbar: #8b8b84,
+  rule: #d7d7d1,
+  canvas: #f2f2f0,
+  paper: #fafaf8,
   signal: #fffa00,
   verified: #00754a,
   info: #315b76,
@@ -24,17 +32,35 @@ $palette: (
   error: #d92e16,
 );
 
-$ink: var(--ark-ink);
-$paper: var(--ark-paper);
-$canvas: var(--ark-canvas);
-$rule: var(--ark-rule);
-$muted: var(--ark-muted);
-$signal: var(--ark-signal);
-$verified: var(--ark-verified);
-$info: var(--ark-info);
-$important: var(--ark-important);
-$warning: var(--ark-warning);
-$error: var(--ark-error);
+@function raw($name) {
+  @if not map.has-key($palette, $name) {
+    @error "Unknown Arkfield palette token `#{$name}`.";
+  }
+
+  @return map.get($palette, $name);
+}
+
+// Themeable reference; use `raw()` instead where a literal colour is required.
+@function ark($name) {
+  $_: raw($name);
+
+  @return var(--ark-#{$name});
+}
+
+@function tint($name, $alpha) {
+  @return rgba(raw($name), $alpha);
+}
+
+$ink: ark(ink);
+$soft: ark(soft);
+$muted: ark(muted);
+$rule: ark(rule);
+$canvas: ark(canvas);
+$paper: ark(paper);
+$signal: ark(signal);
+$verified: ark(verified);
+$error: ark(error);
+$radius: 2px;
 $body-font:
   "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
 $ja-font: "Noto Sans JP", "Source Han Sans JP", "Yu Gothic UI", Meiryo, $body-font;
@@ -48,9 +74,9 @@ $typora-vars: (
   text-color: $ink,
   select-text-bg-color: $signal,
   select-text-font-color: $ink,
-  md-char-color: #8a8a82,
+  md-char-color: ark(char),
   meta-content-color: $muted,
-  blur-text-color: #9c9c95,
+  blur-text-color: ark(blur),
   heading-char-color: $muted,
   drag-placeholder-color: $signal,
   primary-color: $ink,
@@ -60,24 +86,32 @@ $typora-vars: (
   table-border-color: $rule,
   border-color: $rule,
   window-border: 1px solid $rule,
-  window-border-color: $rule,
   side-bar-bg-color: $paper,
   side-bar-menu-active-tint: $ink,
   control-text-color: $muted,
   control-text-hover-color: $ink,
   active-toggle-btn-color: $ink,
-  active-file-bg-color: "rgb(25 25 25 / 7%)",
+  active-file-bg-color: tint(ink, 0.07),
   active-file-text-color: $ink,
   active-file-border-color: $ink,
-  item-hover-bg-color: "rgb(25 25 25 / 8%)",
+  item-hover-bg-color: tint(ink, 0.08),
   item-hover-text-color: $ink,
-  focus-ring-color: "rgb(255 250 0 / 55%)",
-  search-hit-bg-color: "rgb(255 250 0 / 52%)",
+  focus-ring-color: tint(signal, 0.55),
   search-select-bg-color: $ink,
   search-select-text-color: $paper,
-  color-popover-bg-color: $paper,
   rawblock-edit-panel-bd: $paper,
   monospace: $mono-font,
+);
+
+// Typora builds the Mermaid theme in JavaScript from `getComputedStyle(document.body)`,
+// so these have to resolve to literal values rather than `var()` references.
+$mermaid-vars: (
+  node-fill: raw(canvas),
+  node-text-color: raw(ink),
+  cluster-fill: raw(paper),
+  mermaid-background: raw(paper),
+  mermaid-font-family: $tech-font,
+  mermaid-flowchart-curve: linear,
 );
 
 $heading-scale: (
@@ -114,23 +148,23 @@ $heading-scale: (
 );
 
 $syntax-colors: (
-  ".CodeMirror-linenumber, .cm-comment": #85857d,
+  ".CodeMirror-linenumber, .cm-comment": ark(comment),
   ".cm-string, .cm-string-2, .cm-attribute, .cm-link": $verified,
-  ".cm-number, .cm-atom, .cm-builtin": $warning,
-  ".cm-def, .cm-variable-2, .cm-variable-3, .cm-property": $info,
+  ".cm-number, .cm-atom, .cm-builtin": ark(warning),
+  ".cm-def, .cm-variable-2, .cm-variable-3, .cm-property": ark(info),
 );
 
 $alerts: (
   note: (
-    color: $info,
+    color: ark(info),
     background: #edf4f8,
   ),
   important: (
-    color: $important,
+    color: ark(important),
     background: #f4f0fa,
   ),
   warning: (
-    color: $warning,
+    color: ark(warning),
     background: #fff5e6,
   ),
   tip: (
@@ -158,16 +192,26 @@ $unordered-marker-depth: 12;
 
 @mixin frame($background: $canvas, $border: $rule) {
   border: 1px solid $border;
-  border-radius: 2px;
+  border-radius: $radius;
   background: $background;
 }
 
 @mixin engineering-grid {
   background-color: $canvas;
   background-image:
-    linear-gradient(rgb(25 25 25 / 4%) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(25 25 25 / 4%) 1px, transparent 1px);
+    linear-gradient(tint(ink, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, tint(ink, 0.04) 1px, transparent 1px);
   background-size: 5.5rem 5.5rem;
+}
+
+// The single affordance for "this control is live": signal fill, ink glyph.
+@mixin signal-hit {
+  background: $signal;
+  color: $ink;
+}
+
+@mixin hard-shadow($offset: 5px) {
+  box-shadow: $offset $offset 0 tint(ink, 0.12);
 }
 
 @function signal-rule($signal-end: 4rem) {
@@ -187,6 +231,10 @@ $unordered-marker-depth: 12;
   }
 
   @each $name, $value in $typora-vars {
+    --#{$name}: #{$value};
+  }
+
+  @each $name, $value in $mermaid-vars {
     --#{$name}: #{$value};
   }
 }
@@ -214,19 +262,9 @@ content {
   @include engineering-grid;
 }
 
-::selection,
-.in-text-selection {
-  background: $signal;
-  color: $ink;
-}
-
+// Typora hardcodes the hit colour; only the current hit reads a custom property.
 ::highlight(search-hit) {
-  background: rgb(255 250 0 / 52%);
-}
-
-::highlight(search-select) {
-  background: $ink;
-  color: $paper;
+  background: tint(signal, 0.52);
 }
 
 // Reading surface and Markdown elements. These selectors also survive native exports.
@@ -279,7 +317,6 @@ content {
 
   h2 {
     padding: 0 0 0.45rem 1rem;
-    border-bottom: 0;
 
     &::before {
       content: "";
@@ -375,13 +412,13 @@ content {
 
   dd {
     margin: 0.35rem 0 0.8rem 1.5rem;
-    color: #3f3f3a;
+    color: $soft;
   }
 
   a {
     color: inherit;
     text-decoration: underline;
-    text-decoration-color: rgb(25 25 25 / 42%);
+    text-decoration-color: tint(ink, 0.42);
     text-decoration-thickness: 1px;
     text-underline-offset: 0.2em;
 
@@ -393,11 +430,11 @@ content {
 
   strong {
     font-weight: 700;
-    background: linear-gradient(transparent 62%, rgb(255 250 0 / 55%) 62%);
+    background: linear-gradient(transparent 62%, tint(signal, 0.55) 62%);
   }
 
   em {
-    color: #3f3f3a;
+    color: $soft;
   }
 
   del {
@@ -406,7 +443,7 @@ content {
   }
 
   u {
-    text-decoration-color: rgb(25 25 25 / 50%);
+    text-decoration-color: tint(ink, 0.5);
     text-decoration-thickness: 1px;
     text-underline-offset: 0.2em;
   }
@@ -454,7 +491,7 @@ content {
     padding: 0.12em 0.45em;
     border: 1px solid $ink;
     border-bottom-width: 2px;
-    border-radius: 2px;
+    border-radius: $radius;
     background: $paper;
     box-shadow: none;
     color: $ink;
@@ -464,16 +501,15 @@ content {
 
   mark {
     padding-inline: 0.15em;
-    background: $signal;
-    color: $ink;
+    @include signal-hit;
   }
 
   blockquote {
     padding: 0.8rem 1rem;
     border-block: 1px solid $rule;
     border-left: 3px solid $signal;
-    background: rgb(255 250 0 / 5%);
-    color: #3f3f3a;
+    background: tint(signal, 0.05);
+    color: $soft;
     @include trim-flow;
   }
 
@@ -489,6 +525,13 @@ content {
       font-weight: 700;
       letter-spacing: 0.06em;
       text-transform: uppercase;
+    }
+
+    // The visible label is drawn by this pseudo-element, which carries its own
+    // `text-transform` in the base styles; inheriting keeps the editor and the
+    // native export in agreement.
+    .md-alert-text-container::after {
+      text-transform: inherit;
     }
   }
 
@@ -561,18 +604,18 @@ content {
 
     th {
       border-color: $rule;
-      background: rgb(25 25 25 / 5%);
+      background: tint(ink, 0.05);
       color: $ink;
       font-family: $tech-font;
       font-weight: 700;
     }
 
     tbody tr:nth-child(even) {
-      background: rgb(25 25 25 / 3%);
+      background: tint(ink, 0.03);
     }
 
     tbody tr:hover {
-      background: rgb(255 250 0 / 16%);
+      background: tint(signal, 0.16);
     }
   }
 
@@ -581,7 +624,6 @@ content {
     margin: 1.5rem 0;
     padding: 0.85rem 1rem;
     border: 1px solid $rule;
-    border-radius: 0;
     @include signal-top;
     color: $ink;
     font-family: $mono-font;
@@ -615,7 +657,6 @@ content {
     padding: 0.8rem 1rem;
     border: 1px solid $rule;
     border-left: 2px solid $ink;
-    border-radius: 0;
     @include signal-top(3px);
     color: $ink;
     font-family: $mono-font;
@@ -637,7 +678,8 @@ content {
   }
 
   .md-rawblock {
-    @include frame($paper);
+    border: 1px solid $rule;
+    border-radius: $radius;
     @include signal-top;
   }
 
@@ -648,6 +690,9 @@ content {
   }
 
   .md-toc {
+    // The base styles bleed the TOC 20px past the text column and pad the inner
+    // wrapper to compensate; a framed block has to undo both.
+    margin-inline: 0;
     padding: 0.9rem 1rem 1rem;
     border: 1px solid $ink;
     border-left: 3px solid $ink;
@@ -668,6 +713,7 @@ content {
 
     .md-toc-content {
       margin: 0;
+      padding: 0;
     }
 
     .md-toc-item {
@@ -697,7 +743,7 @@ content {
       }
 
       &:hover {
-        background: rgb(25 25 25 / 5%);
+        background: tint(ink, 0.05);
         box-shadow: inset 3px 0 $signal;
       }
 
@@ -710,20 +756,15 @@ content {
 
     .md-toc-inner {
       display: block;
-      margin-left: 0 !important;
-      border-bottom: 0;
+      margin-left: 0;
       color: $ink;
       line-height: 1.5;
       text-decoration: none;
     }
-
-    .md-toc-inner:hover {
-      background: none;
-    }
   }
 
   .md-footnote {
-    border-radius: 2px;
+    border-radius: $radius;
     background: $canvas;
     color: $verified;
   }
@@ -738,7 +779,6 @@ content {
   img {
     max-width: 100%;
     border: 1px solid $rule;
-    border-radius: 0;
   }
 
   .md-image > .md-meta {
@@ -811,6 +851,7 @@ content {
   }
 }
 
+// Each depth adds one type selector, so the deepest matching rule always wins.
 $unordered-list-selector: "#write ul";
 
 @for $level from 1 through $unordered-marker-depth {
@@ -836,12 +877,7 @@ $unordered-list-selector: "#write ul";
 }
 
 .md-search-hit {
-  background: rgb(255 250 0 / 52%);
-}
-
-:is(.md-search-select, .cm-search-hit.CodeMirror-selectedtext) {
-  background: $ink;
-  color: $paper;
+  background: tint(signal, 0.52);
 }
 
 .cm-s-inner,
@@ -877,11 +913,6 @@ $unordered-list-selector: "#write ul";
     border-left: 2px solid $ink;
   }
 
-  .CodeMirror-selected,
-  &.CodeMirror-focused .CodeMirror-selected {
-    background: rgb(255 250 0 / 48%);
-  }
-
   .cm-error {
     background: $error;
     color: $paper;
@@ -905,7 +936,7 @@ $unordered-list-selector: "#write ul";
   }
 
   .cm-strong {
-    background: rgb(255 250 0 / 45%);
+    background: tint(signal, 0.45);
   }
 
   :is(.cm-link, .cm-string) {
@@ -919,7 +950,7 @@ $unordered-list-selector: "#write ul";
 
 :is(.code-tooltip, .md-table-resize-popover, .md-toc-tooltip, .md-rawblock-tooltip) {
   border-color: $rule;
-  border-radius: 2px;
+  border-radius: $radius;
   background: $paper;
   color: $ink;
   box-shadow: none;
@@ -938,13 +969,11 @@ $unordered-list-selector: "#write ul";
 .md-rawblock-tooltip-btn:hover,
 .md-image-btn:hover,
 .md-image-btn.selected {
-  background: $signal;
-  color: $ink;
+  @include signal-hit;
 }
 
 .md-image-uploading-mask-wrapper {
-  border-radius: 2px;
-  background: rgb(25 25 25 / 82%);
+  background: tint(ink, 0.82);
 }
 
 .md-image-uploading-label {
@@ -955,19 +984,18 @@ $unordered-list-selector: "#write ul";
 // Typora 1.14 editor toolbar.
 .ty-editor-toolbar {
   border: 1px solid $ink;
-  border-radius: 2px;
+  border-radius: $radius;
   background: $paper;
   color: $ink;
   filter: none;
-  box-shadow: 5px 5px 0 rgb(25 25 25 / 12%);
+  @include hard-shadow;
 }
 
 .ty-editor-toolbar-btn {
   border-radius: 1px;
 
   &:is(.hover, :hover, .active) {
-    background: $signal;
-    color: $ink;
+    @include signal-hit;
     opacity: 1;
   }
 }
@@ -980,20 +1008,19 @@ $unordered-list-selector: "#write ul";
 .ty-editor-toolbar-menu {
   @include frame($paper, $ink);
   filter: none;
-  box-shadow: 5px 5px 0 rgb(25 25 25 / 12%);
+  @include hard-shadow;
 }
 
 .ty-editor-toolbar-menu-item {
   border-radius: 1px;
 
   &:is(:hover, .active) {
-    background: $signal;
-    color: $ink;
+    @include signal-hit;
   }
 }
 
 .ty-editor-toolbar-tooltip {
-  border-radius: 2px;
+  border-radius: $radius;
   background: $ink;
   color: $paper;
   box-shadow: none;
@@ -1012,18 +1039,13 @@ $unordered-list-selector: "#write ul";
   border-color: $rule;
 }
 
-.sidebar-tab.active,
-.sidebar-tabs .active {
+.sidebar-tab.active {
   box-shadow: inset 0 -3px $ink;
   color: $ink;
 }
 
-:is(.outline-item, .file-list-item, .file-node-content, .ty-search-item) {
-  border-radius: 0;
-}
-
 :is(.outline-item, .file-list-item, .file-node-content, .ty-search-item):hover {
-  background: rgb(25 25 25 / 8%);
+  background: tint(ink, 0.08);
   color: $ink;
 }
 
@@ -1031,13 +1053,12 @@ $unordered-list-selector: "#write ul";
 .file-tree-node:is(.active, .select) > .file-node-background,
 .file-library-node.active > .file-node-background {
   border-left: 3px solid $ink;
-  background: rgb(25 25 25 / 7%);
+  background: tint(ink, 0.07);
   color: $ink;
 }
 
 .ty-search-item.select {
-  background: $signal;
-  color: $ink;
+  @include signal-hit;
 }
 
 .outline-label:hover,
@@ -1048,13 +1069,11 @@ $unordered-list-selector: "#write ul";
 }
 
 .outline-active {
-  background: rgb(25 25 25 / 7%);
-  box-shadow: none;
+  background: tint(ink, 0.07);
 }
 
 .ty-outline-hit {
-  background: $signal;
-  color: $ink;
+  @include signal-hit;
 }
 
 #typora-quick-open,
@@ -1082,8 +1101,7 @@ $unordered-list-selector: "#write ul";
 :is(.dropdown-menu, .context-menu) > li > a:hover,
 :is(.dropdown-menu, .context-menu) > .active > a,
 .ty-spell-check-panel-item:is(.ty-active, :hover) {
-  background: $signal;
-  color: $ink;
+  @include signal-hit;
 }
 
 :is(.dropdown-menu, .context-menu) .divider {
@@ -1102,7 +1120,7 @@ $unordered-list-selector: "#write ul";
 
 .btn,
 button {
-  border-radius: 2px;
+  border-radius: $radius;
 }
 
 .btn-primary {
@@ -1114,13 +1132,12 @@ button {
 .btn-primary:hover,
 .btn-default:hover {
   border-color: $ink;
-  background: $signal;
-  color: $ink;
+  @include signal-hit;
 }
 
 :is(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
   border-color: $rule;
-  border-radius: 2px;
+  border-radius: $radius;
   background: $paper;
   color: $ink;
 }
@@ -1128,7 +1145,7 @@ button {
 :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
   outline: 2px solid $ink;
   outline-offset: 2px;
-  box-shadow: 0 0 0 5px rgb(255 250 0 / 50%);
+  box-shadow: 0 0 0 5px tint(signal, 0.5);
 }
 
 header,
@@ -1147,8 +1164,7 @@ footer.ty-footer {
 .typora-sourceview-on #toggle-sourceview-btn,
 .on-focus-mode #toggle-focus-mode-btn,
 .ty-on-typewriter-mode #toggle-typewriter-mode-btn {
-  background: $signal;
-  color: $ink;
+  @include signal-hit;
 }
 
 .megamenu-menu {
@@ -1159,12 +1175,11 @@ footer.ty-footer {
 }
 
 .megamenu-menu-header {
-  border-color: rgb(250 250 248 / 25%);
+  border-color: tint(paper, 0.25);
 }
 
 .megamenu-menu-list li a:is(.active, :hover) {
-  background: $signal;
-  color: $ink;
+  @include signal-hit;
 }
 
 .megamenu-content,
@@ -1176,11 +1191,11 @@ footer.ty-footer {
 
 .megamenu-menu-panel :is(.btn, .long-btn) {
   border-color: $ink;
-  border-radius: 2px;
+  border-radius: $radius;
 }
 
 .theme-preview-div {
-  border-radius: 2px;
+  border-radius: $radius;
 
   &:is(:hover, .active) {
     border-color: $ink;
@@ -1195,8 +1210,7 @@ footer.ty-footer {
 
   .nav-group-item.active,
   .export-item.active {
-    background: $signal;
-    color: $ink;
+    @include signal-hit;
   }
 }
 
@@ -1215,26 +1229,20 @@ footer.ty-footer {
 #ty-preview-pill,
 #ty-preview-open-menu {
   @include frame($paper, $ink);
-  box-shadow: 4px 4px 0 rgb(25 25 25 / 12%);
+  @include hard-shadow(4px);
   backdrop-filter: none;
 }
 
-#ty-preview-pill {
-  border-radius: 2px;
-
-  .ty-preview-btn:hover,
-  .ty-preview-btn:active {
-    background: $signal;
-    color: $ink;
+#ty-preview-pill .ty-preview-btn {
+  &:hover,
+  &:active {
+    @include signal-hit;
   }
 }
 
 #ty-preview-open-menu {
-  border-radius: 2px;
-
   li:hover {
-    background: $signal;
-    color: $ink;
+    @include signal-hit;
   }
 
   li.separator {
@@ -1254,7 +1262,7 @@ footer.ty-footer {
 ::-webkit-scrollbar-thumb {
   border: 2px solid $canvas;
   border-radius: 0;
-  background: #8b8b84;
+  background: ark(scrollbar);
 }
 
 .on-focus-mode {
@@ -1302,8 +1310,7 @@ body.typora-export {
   }
 
   .outline-item-active > .outline-item .outline-label {
-    background: rgb(25 25 25 / 7%);
-    box-shadow: none;
+    background: tint(ink, 0.07);
     color: $ink;
   }
 }
@@ -1383,7 +1390,6 @@ body.typora-export {
 
   html,
   body {
-    border: 1px solid transparent;
     background: #fff;
     color: #000;
   }

@@ -59,7 +59,7 @@ Arkfield is a Typora theme for technical documents, multilingual notes, study gu
 
 **粗体 Bold 太字**、_斜体 Italic 斜体_、_**粗斜体 Bold italic 太字斜体**_、
 <u>下划线 Underline 下線</u>、~~删除线 Strikethrough 取り消し線~~、
-==高亮 Highlight ハイライト==、`inlineCode()`、H~~2~~O、x^2^、:gear:。
+==高亮 Highlight ハイライト==、`inlineCode()`、H2O、x^2^、:gear:。
 
 Keyboard shortcuts use <kbd>Ctrl</kbd> + <kbd>K</kbd>, while an abbreviation such as
 <abbr title="Cascading Style Sheets">CSS</abbr> keeps its explanation available on hover.
