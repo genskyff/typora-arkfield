@@ -43,7 +43,7 @@
   --control-text-color: var(--ark-muted);
   --control-text-hover-color: var(--ark-ink);
   --active-toggle-btn-color: var(--ark-ink);
-  --active-file-bg-color: rgba(25, 25, 25, 0.07);
+  --active-file-bg-color: rgba(25, 25, 25, 0.14);
   --active-file-text-color: var(--ark-ink);
   --active-file-border-color: var(--ark-ink);
   --item-hover-bg-color: rgba(25, 25, 25, 0.08);
@@ -992,7 +992,7 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
   opacity: 1;
 }
 .ty-editor-toolbar-btn.active {
-  background: rgba(25, 25, 25, 0.12);
+  background: rgba(25, 25, 25, 0.14);
   color: var(--ark-ink);
   opacity: 1;
 }
@@ -1018,7 +1018,7 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
   color: var(--ark-ink);
 }
 .ty-editor-toolbar-menu-item.active {
-  background: rgba(25, 25, 25, 0.12);
+  background: rgba(25, 25, 25, 0.14);
   color: var(--ark-ink);
 }
 
@@ -1054,14 +1054,25 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
 :is(.file-list-item.active, .file-list-item.select),
 .file-tree-node:is(.active, .select) > .file-node-background,
 .file-library-node.active > .file-node-background {
-  border-left: 3px solid var(--ark-ink);
-  background: rgba(25, 25, 25, 0.07);
+  background: rgba(25, 25, 25, 0.14);
   color: var(--ark-ink);
+  border-left: 3px solid var(--ark-ink);
 }
 
 .ty-search-item.select {
-  background: rgba(25, 25, 25, 0.12);
+  background: rgba(25, 25, 25, 0.14);
   color: var(--ark-ink);
+}
+
+.outline-item.outline-item-active {
+  background: rgba(25, 25, 25, 0.14);
+  color: var(--ark-ink);
+}
+
+.outline-item:hover,
+.outline-item.outline-item-active {
+  margin-inline: -28px;
+  border-inline: 28px solid transparent;
 }
 
 .outline-label:hover,
@@ -1071,12 +1082,8 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
   font-weight: 700;
 }
 
-.outline-active {
-  background: rgba(25, 25, 25, 0.07);
-}
-
 .ty-outline-hit {
-  background: rgba(25, 25, 25, 0.12);
+  background: rgba(25, 25, 25, 0.14);
   color: var(--ark-ink);
 }
 
@@ -1112,7 +1119,7 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
 .typora-quick-open-item.active,
 :is(.dropdown-menu, .context-menu) > .active > a,
 .ty-spell-check-panel-item.ty-active {
-  background: rgba(25, 25, 25, 0.12);
+  background: rgba(25, 25, 25, 0.14);
   color: var(--ark-ink);
 }
 
@@ -1181,7 +1188,7 @@ footer.ty-footer {
 .typora-sourceview-on #toggle-sourceview-btn,
 .on-focus-mode #toggle-focus-mode-btn,
 .ty-on-typewriter-mode #toggle-typewriter-mode-btn {
-  background: rgba(25, 25, 25, 0.12);
+  background: rgba(25, 25, 25, 0.14);
   color: var(--ark-ink);
 }
 
@@ -1225,7 +1232,11 @@ footer.ty-footer {
   color: var(--ark-ink);
 }
 .ty-preferences .nav-group-item.active {
-  background: rgba(25, 25, 25, 0.07);
+  background: rgba(25, 25, 25, 0.14);
+  color: var(--ark-ink);
+}
+.ty-preferences .nav-group-item:hover:not(.active) {
+  background: rgba(25, 25, 25, 0.08);
   color: var(--ark-ink);
 }
 .ty-preferences .export-detail {
@@ -1234,7 +1245,11 @@ footer.ty-footer {
 }
 .ty-preferences .export-item.active,
 .ty-preferences .export-items-list-control {
-  background: rgba(25, 25, 25, 0.07);
+  background: rgba(25, 25, 25, 0.14);
+  color: var(--ark-ink);
+}
+.ty-preferences .export-item:hover:not(.active) {
+  background: rgba(25, 25, 25, 0.08);
   color: var(--ark-ink);
 }
 
@@ -1326,9 +1341,11 @@ body.typora-export #write {
 .typora-export-show-outline .typora-export-sidebar .outline-content {
   padding: 3rem 1rem;
 }
-.typora-export-show-outline .outline-item-active > .outline-item .outline-label {
-  background: rgba(25, 25, 25, 0.07);
+.typora-export-show-outline .outline-item-active > .outline-item {
+  background: rgba(25, 25, 25, 0.14);
   color: var(--ark-ink);
+  margin-inline-end: -8px;
+  border-inline-end: 8px solid transparent;
 }
 
 @media screen {

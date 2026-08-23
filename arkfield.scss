@@ -97,7 +97,7 @@ $typora-vars: (
   control-text-color: $muted,
   control-text-hover-color: $ink,
   active-toggle-btn-color: $ink,
-  active-file-bg-color: tint(ink, 0.07),
+  active-file-bg-color: tint(ink, 0.14),
   active-file-text-color: $ink,
   active-file-border-color: $ink,
   item-hover-bg-color: tint(ink, 0.08),
@@ -212,14 +212,16 @@ $unordered-marker-depth: 12;
 }
 
 // Application chrome — toolbars, menus, lists, buttons — stays on the ink scale, so
-// the signal marker never competes with the text being edited.
+// the signal marker never competes with the text being edited. Hovering and being
+// selected are one treatment at two strengths; hover is the lighter step, and
+// nothing else about the row may differ between them.
 @mixin control-hover {
   background: tint(ink, 0.08);
   color: $ink;
 }
 
 @mixin control-on {
-  background: tint(ink, 0.12);
+  background: tint(ink, 0.14);
   color: $ink;
 }
 
@@ -1221,20 +1223,36 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
 }
 
 :is(.outline-item, .file-list-item, .file-node-content, .ty-search-item):hover {
-  background: tint(ink, 0.08);
-  color: $ink;
+  @include control-hover;
 }
 
+// The open file carries an edge marker on top of the shared tint.
 :is(.file-list-item.active, .file-list-item.select),
 .file-tree-node:is(.active, .select) > .file-node-background,
 .file-library-node.active > .file-node-background {
+  @include control-on;
   border-left: 3px solid $ink;
-  background: tint(ink, 0.07);
-  color: $ink;
 }
 
 .ty-search-item.select {
   @include control-on;
+}
+
+// `.outline-active` lands on the label, which is only as wide as its text, so the
+// tint goes on the row — `.outline-item`, which carries `.outline-item-active` in
+// the editor and is its child in exports.
+.outline-item.outline-item-active {
+  @include control-on;
+}
+
+// Typora bleeds only the hovered row past the sidebar's gutter, with a negative
+// margin and a transparent border, which left the two bands 56px apart in width.
+// Driving both states from one rule is what keeps them identical; 28px is Typora's
+// own offset.
+.outline-item:hover,
+.outline-item.outline-item-active {
+  margin-inline: -28px;
+  border-inline: 28px solid transparent;
 }
 
 .outline-label:hover,
@@ -1242,10 +1260,6 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
 .outline-item.select {
   color: $ink;
   font-weight: 700;
-}
-
-.outline-active {
-  background: tint(ink, 0.07);
 }
 
 .ty-outline-hit {
@@ -1400,8 +1414,11 @@ footer.ty-footer {
   }
 
   .nav-group-item.active {
-    background: tint(ink, 0.07);
-    color: $ink;
+    @include control-on;
+  }
+
+  .nav-group-item:hover:not(.active) {
+    @include control-hover;
   }
 
   // Export is the only pane Typora fills with a tinted card; its padding already
@@ -1415,8 +1432,11 @@ footer.ty-footer {
   // slate panels into a light theme when the OS is dark.
   .export-item.active,
   .export-items-list-control {
-    background: tint(ink, 0.07);
-    color: $ink;
+    @include control-on;
+  }
+
+  .export-item:hover:not(.active) {
+    @include control-hover;
   }
 }
 
@@ -1515,9 +1535,11 @@ body.typora-export {
     padding: 3rem 1rem;
   }
 
-  .outline-item-active > .outline-item .outline-label {
-    background: tint(ink, 0.07);
-    color: $ink;
+  // Exports bleed the row on the trailing edge only, and by a smaller amount.
+  .outline-item-active > .outline-item {
+    @include control-on;
+    margin-inline-end: -8px;
+    border-inline-end: 8px solid transparent;
   }
 }
 
