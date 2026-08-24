@@ -1,5 +1,23 @@
 @charset "UTF-8";
 @font-face {
+  font-family: "Inter";
+  src: url("./arkfield/Inter-VF.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("./arkfield/Inter-Italic-VF.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 100 900;
+}
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("./arkfield/SpaceGrotesk-VF.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300 700;
+}
+@font-face {
   font-family: "Fira Code";
   src: url("./arkfield/FiraCode-VF.woff2") format("woff2");
   font-style: normal;
@@ -52,7 +70,9 @@
   --search-select-bg-color: var(--ark-ink);
   --search-select-text-color: var(--ark-paper);
   --rawblock-edit-panel-bd: var(--ark-paper);
-  --monospace: Fira Code, SFMono-Regular, Consolas, Liberation Mono, monospace;
+  --monospace:
+    Fira Code, Sarasa Mono SC, SFMono-Regular, Consolas, Liberation Mono, Noto Sans SC,
+    Source Han Sans SC, PingFang SC, Microsoft YaHei, monospace;
   --mermaid-theme: default;
 }
 
@@ -65,7 +85,7 @@ html,
 body {
   color: var(--ark-ink);
   font-family:
-    "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    "Inter", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 
 body {
@@ -106,7 +126,9 @@ content {
 #write :is(h1, h2, h3, h4, h5, h6) {
   position: relative;
   color: var(--ark-ink);
-  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-family:
+    "Space Grotesk", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
   font-weight: 700;
   line-height: 1.25;
 }
@@ -206,8 +228,8 @@ content {
 }
 #write :where(:lang(ja)) {
   font-family:
-    "Noto Sans JP", "Source Han Sans JP", "Yu Gothic UI", Meiryo, "Noto Sans SC",
-    "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    "Inter", "Noto Sans JP", "Source Han Sans JP", "Hiragino Sans", "Yu Gothic UI", Meiryo,
+    "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 #write :is(ul, ol) {
   padding-left: 1.6rem;
@@ -220,7 +242,9 @@ content {
 }
 #write li::marker {
   color: var(--ark-ink);
-  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-family:
+    "Space Grotesk", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
   font-weight: 700;
 }
 #write li + li {
@@ -230,7 +254,9 @@ content {
   margin-block: 0.56rem;
 }
 #write dt {
-  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-family:
+    "Space Grotesk", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
   font-weight: 700;
 }
 #write dd {
@@ -289,7 +315,9 @@ content {
   background: var(--ark-paper);
   border-bottom-width: 2px;
   color: var(--ark-ink);
-  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    "Fira Code", "Sarasa Mono SC", "SFMono-Regular", Consolas, "Liberation Mono", "Noto Sans SC",
+    "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", monospace;
   font-size: 0.875em;
 }
 #write :is(pre, .md-fences) :is(code, tt) {
@@ -306,7 +334,9 @@ content {
   background: var(--ark-paper);
   box-shadow: none;
   color: var(--ark-ink);
-  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    "Fira Code", "Sarasa Mono SC", "SFMono-Regular", Consolas, "Liberation Mono", "Noto Sans SC",
+    "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", monospace;
   font-size: 0.78em;
 }
 #write mark {
@@ -338,7 +368,9 @@ content {
   margin-bottom: 0;
 }
 #write .md-alert .md-alert-text {
-  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-family:
+    "Space Grotesk", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -409,7 +441,9 @@ content {
 }
 #write summary {
   cursor: pointer;
-  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-family:
+    "Space Grotesk", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
   font-weight: 700;
 }
 #write figure {
@@ -445,7 +479,9 @@ content {
   border-color: var(--ark-rule);
   background: rgba(25, 25, 25, 0.05);
   color: var(--ark-ink);
-  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-family:
+    "Space Grotesk", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
   font-weight: 700;
 }
 #write table tbody tr:nth-child(even) {
@@ -464,7 +500,9 @@ content {
     linear-gradient(90deg, var(--ark-signal) 0 4rem, var(--ark-ink) 4rem) top/100% 2px no-repeat,
     var(--ark-paper);
   color: var(--ark-ink);
-  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    "Fira Code", "Sarasa Mono SC", "SFMono-Regular", Consolas, "Liberation Mono", "Noto Sans SC",
+    "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", monospace;
   font-size: 0.88rem;
   line-height: 1.65;
 }
@@ -512,7 +550,9 @@ content {
     linear-gradient(90deg, var(--ark-signal) 0 4rem, var(--ark-ink) 4rem) top/100% 3px no-repeat,
     var(--ark-paper);
   color: var(--ark-ink);
-  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    "Fira Code", "Sarasa Mono SC", "SFMono-Regular", Consolas, "Liberation Mono", "Noto Sans SC",
+    "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", monospace;
   font-size: 0.8rem;
 }
 #write pre.md-meta-block :is(.md-meta, .md-blockmeta) {
@@ -520,7 +560,9 @@ content {
 }
 #write :is(.md-comment, .md-tag, .md-attr, .md-blockmeta) {
   color: var(--ark-muted);
-  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    "Fira Code", "Sarasa Mono SC", "SFMono-Regular", Consolas, "Liberation Mono", "Noto Sans SC",
+    "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", monospace;
 }
 #write :is(.md-def-link, .md-def-footnote) {
   opacity: 1;
@@ -530,13 +572,17 @@ content {
 #write :is(.md-def-link, .md-def-footnote) .md-def-name {
   padding: 0;
   color: var(--ark-ink);
-  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    "Fira Code", "Sarasa Mono SC", "SFMono-Regular", Consolas, "Liberation Mono", "Noto Sans SC",
+    "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", monospace;
 }
 #write :is(.md-def-link, .md-def-footnote) .md-def-name::before,
 #write :is(.md-def-link, .md-def-footnote) .md-def-name::after {
   position: static;
   color: var(--ark-char);
-  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    "Fira Code", "Sarasa Mono SC", "SFMono-Regular", Consolas, "Liberation Mono", "Noto Sans SC",
+    "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", monospace;
 }
 #write .md-rawblock {
   padding: 0.85rem 1rem;
@@ -556,7 +602,9 @@ content {
 #write .md-rawblock-input,
 #write .md-htmlblock {
   color: var(--ark-ink);
-  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    "Fira Code", "Sarasa Mono SC", "SFMono-Regular", Consolas, "Liberation Mono", "Noto Sans SC",
+    "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", monospace;
 }
 #write .md-toc {
   margin-inline: 0;
@@ -573,7 +621,9 @@ content {
   padding-bottom: 0.45rem;
   background: linear-gradient(90deg, var(--ark-signal) 0 4rem, var(--ark-ink) 4rem) bottom/100% 2px
     no-repeat;
-  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-family:
+    "Space Grotesk", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -585,7 +635,9 @@ content {
 #write .md-toc .md-toc-content:empty::before {
   position: static;
   color: var(--ark-muted);
-  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    "Fira Code", "Sarasa Mono SC", "SFMono-Regular", Consolas, "Liberation Mono", "Noto Sans SC",
+    "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", monospace;
   font-size: 0.8rem;
 }
 #write .md-toc .md-toc-item {
@@ -598,7 +650,9 @@ content {
 #write .md-toc .md-toc-item::before {
   content: "├";
   color: var(--ark-muted);
-  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    "Fira Code", "Sarasa Mono SC", "SFMono-Regular", Consolas, "Liberation Mono", "Noto Sans SC",
+    "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", monospace;
   font-size: 0.78rem;
 }
 #write .md-toc .md-toc-item:first-child::before {
@@ -641,7 +695,9 @@ content {
   border-radius: 0;
   background: rgba(255, 250, 0, 0.55);
   color: var(--ark-ink);
-  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-family:
+    "Space Grotesk", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
   font-weight: 700;
 }
 #write .footnotes-area {
@@ -656,7 +712,9 @@ content {
 }
 #write .md-image > .md-meta {
   color: var(--ark-muted);
-  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    "Fira Code", "Sarasa Mono SC", "SFMono-Regular", Consolas, "Liberation Mono", "Noto Sans SC",
+    "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", monospace;
 }
 #write .md-img-error > .md-meta {
   color: var(--ark-error);
@@ -830,14 +888,18 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
   padding: 0 0.2em;
   border: 1px solid var(--ark-rule);
   background: var(--ark-paper);
-  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    "Fira Code", "Sarasa Mono SC", "SFMono-Regular", Consolas, "Liberation Mono", "Noto Sans SC",
+    "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", monospace;
   font-size: 0.78rem;
   font-variant-numeric: tabular-nums;
 }
 
 .md-lang {
   color: var(--ark-muted);
-  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-family:
+    "Space Grotesk", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -851,7 +913,9 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
 .cm-s-inner,
 .cm-s-typora-default {
   color: var(--ark-ink);
-  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    "Fira Code", "Sarasa Mono SC", "SFMono-Regular", Consolas, "Liberation Mono", "Noto Sans SC",
+    "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", monospace;
 }
 .cm-s-inner .CodeMirror-gutters,
 .cm-s-typora-default .CodeMirror-gutters {
@@ -924,7 +988,9 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
 }
 #typora-source .cm-header {
   color: var(--ark-ink);
-  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-family:
+    "Space Grotesk", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
   font-weight: 700;
 }
 #typora-source .cm-strong {
@@ -951,7 +1017,9 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
   border-color: var(--ark-rule);
   background: var(--ark-paper);
   color: var(--ark-ink);
-  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    "Fira Code", "Sarasa Mono SC", "SFMono-Regular", Consolas, "Liberation Mono", "Noto Sans SC",
+    "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", monospace;
 }
 
 .ty-table-edit button:hover,
@@ -971,7 +1039,9 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) > table {
 
 .md-image-uploading-label {
   color: var(--ark-paper);
-  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-family:
+    "Space Grotesk", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
 }
 
 .ty-editor-toolbar {
@@ -1176,7 +1246,9 @@ header,
 footer,
 .context-menu,
 .megamenu-content {
-  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-family:
+    "Space Grotesk", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
 }
 
 header,
@@ -1261,7 +1333,9 @@ footer.ty-footer {
 #ty-preview-banner {
   border-bottom: 1px solid var(--ark-rule);
   background: var(--ark-paper);
-  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-family:
+    "Space Grotesk", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
 }
 
 #ty-preview-pill,
@@ -1336,7 +1410,9 @@ body.typora-export #write {
   border-right: 1px solid var(--ark-rule);
   background: var(--ark-paper);
   color: var(--ark-muted);
-  font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  font-family:
+    "Space Grotesk", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
 }
 .typora-export-show-outline .typora-export-sidebar .outline-content {
   padding: 3rem 1rem;
@@ -1372,7 +1448,9 @@ body.typora-export #write {
     padding-left: 0.55rem;
     background: var(--ark-paper);
     color: var(--ark-muted);
-    font-family: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
+    font-family:
+      "Space Grotesk", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei",
+      sans-serif;
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.08em;

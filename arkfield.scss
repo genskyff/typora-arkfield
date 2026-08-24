@@ -1,8 +1,52 @@
 @use "sass:list";
 @use "sass:map";
 
+@function stack($faces...) {
+  $out: ();
+
+  @each $face in $faces {
+    $out: list.join($out, $face, $separator: comma);
+  }
+
+  @return $out;
+}
+
+$face-text: "Inter";
+$face-display: "Space Grotesk";
+$face-mono: "Fira Code";
+
+$sys-sc: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei";
+$sys-jp: "Noto Sans JP", "Source Han Sans JP", "Hiragino Sans", "Yu Gothic UI", Meiryo;
+$sys-mono: "Sarasa Mono SC", "SFMono-Regular", Consolas, "Liberation Mono";
+
+$body-font: stack($face-text, $sys-sc, sans-serif);
+$tech-font: stack($face-display, $sys-sc, sans-serif);
+$mono-font: stack($face-mono, $sys-mono, $sys-sc, monospace);
+$ja-font: stack($face-text, $sys-jp, $sys-sc, sans-serif);
+
 @font-face {
-  font-family: "Fira Code";
+  font-family: $face-text;
+  src: url("./arkfield/Inter-VF.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+}
+
+@font-face {
+  font-family: $face-text;
+  src: url("./arkfield/Inter-Italic-VF.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 100 900;
+}
+
+@font-face {
+  font-family: $face-display;
+  src: url("./arkfield/SpaceGrotesk-VF.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300 700;
+}
+
+@font-face {
+  font-family: $face-mono;
   src: url("./arkfield/FiraCode-VF.woff2") format("woff2");
   font-style: normal;
   font-weight: 300 700;
@@ -57,11 +101,6 @@ $error: ark(error);
 $radius: 2px;
 
 $block-gap: 0.8rem;
-$body-font:
-  "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-$ja-font: "Noto Sans JP", "Source Han Sans JP", "Yu Gothic UI", Meiryo, $body-font;
-$tech-font: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
-$mono-font: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 
 $typora-vars: (
   bg-color: $canvas,
