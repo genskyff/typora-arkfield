@@ -59,7 +59,7 @@ Arkfield is a Typora theme for technical documents, multilingual notes, study gu
 
 **粗体 Bold 太字**、_斜体 Italic 斜体_、_**粗斜体 Bold italic 太字斜体**_、
 <u>下划线 Underline 下線</u>、~~删除线 Strikethrough 取り消し線~~、
-==高亮 Highlight ハイライト==、`inlineCode()`、H~2~O、x^2^、:gear:。
+==高亮 Highlight ハイライト==、`inlineCode()`、H<sub>2</sub>O、x<sup>2</sup>、:gear:。
 
 Keyboard shortcuts use <kbd>Ctrl</kbd> + <kbd>K</kbd>, while an abbreviation such as
 <abbr title="Cascading Style Sheets">CSS</abbr> keeps its explanation available on hover.
@@ -221,7 +221,7 @@ JSON 代码块
 Inline math keeps equations within prose: $E = mc^2$, $y = 3x + 1$, and $p = \frac{a}{b}$.
 
 $$
-\operatorname{score}(x) = \frac{1}{1 + e^{-x}}
+score(x) = \frac{1}{1 + e^{-x}}
 $$
 
 $$
@@ -306,10 +306,11 @@ gitGraph
   </ul>
 </details>
 
-### Ruby annotation / 日语注音
+### Ruby annotation / 注音
 
-<span lang="ja"><ruby>稼働<rt>かどう</rt></ruby>中の設備を確認する。</span>
-/ Inspect the operating equipment. / 检查正在运行的设备。
+<span lang="zh-CN"><ruby>𰻞<rt>biang</rt></ruby>𰻞面，或称油泼扯面，是流行于中国陕西关中地区的面食。</span>
+
+<span lang="ja"><ruby>稼働<rt>かどう</rt></ruby>中の<ruby>設備<rt>せつび</rt></ruby>を確認する。</span>
 
 ## 08 / Export and pagination / 导出与分页
 
