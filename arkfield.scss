@@ -1,8 +1,6 @@
 @use "sass:list";
 @use "sass:map";
 
-// Arkfield: Endfield family + moderate depth, without protected art or branding.
-
 @font-face {
   font-family: "Fira Code";
   src: url("./arkfield/FiraCode-VF.woff2") format("woff2");
@@ -10,9 +8,6 @@
   font-weight: 300 700;
 }
 
-// Every colour in the theme comes from this map, so the custom properties, the
-// translucent variants and the literal hex values Typora reads from JavaScript
-// can never drift apart.
 $palette: (
   ink: #191919,
   soft: #33332e,
@@ -40,8 +35,6 @@ $palette: (
   @return map.get($palette, $name);
 }
 
-// Themeable reference. `raw()` stays available for the rare place that needs a
-// literal colour rather than a custom property.
 @function ark($name) {
   $_: raw($name);
 
@@ -63,11 +56,6 @@ $verified: ark(verified);
 $error: ark(error);
 $radius: 2px;
 
-// One gap for every block-level element. It is `rem`, not `em`, because code fences
-// and tables set their own smaller font size — `em` would silently shrink the gap
-// under exactly the blocks that need it most. The gaps inside a list are written as
-// fractions of it rather than as their own lengths, so retuning this one number moves
-// the whole rhythm and leaves the proportions where they were.
 $block-gap: 0.8rem;
 $body-font:
   "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
@@ -75,8 +63,6 @@ $ja-font: "Noto Sans JP", "Source Han Sans JP", "Yu Gothic UI", Meiryo, $body-fo
 $tech-font: "Space Grotesk", "IBM Plex Sans", Bahnschrift, "Segoe UI", system-ui, sans-serif;
 $mono-font: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 
-// Typora reads these variables throughout the editor shell. Keeping the mapping here
-// is both shorter and easier to audit against the current built-in base styles.
 $typora-vars: (
   bg-color: $canvas,
   text-color: $ink,
@@ -109,11 +95,7 @@ $typora-vars: (
   search-select-text-color: $paper,
   rawblock-edit-panel-bd: $paper,
   monospace: $mono-font,
-  // Diagrams keep Mermaid's own theme. Naming it explicitly matters: left unset,
-  // Typora takes the branch that builds themeVariables out of `--node-fill` and
-  // friends, and an unset `--node-fill` reaches Mermaid as an empty primaryColor.
-  // Exports render with Mermaid's defaults regardless, so this also keeps the
-  // editor and the exported document showing the same diagram.
+
   mermaid-theme: default,
 );
 
@@ -207,16 +189,11 @@ $unordered-marker-depth: 12;
   background-size: 5.5rem 5.5rem;
 }
 
-// Signal belongs to the document: selection, search hits, emphasis, structural rules.
 @mixin signal-hit {
   background: $signal;
   color: $ink;
 }
 
-// Application chrome — toolbars, menus, lists, buttons — stays on the ink scale, so
-// the signal marker never competes with the text being edited. Hovering and being
-// selected are one treatment at two strengths; hover is the lighter step, and
-// nothing else about the row may differ between them.
 @mixin control-hover {
   background: tint(ink, 0.08);
   color: $ink;
@@ -252,7 +229,6 @@ $unordered-marker-depth: 12;
   }
 }
 
-// Foundation shared by the editor and native HTML/image exports.
 html {
   background: $canvas;
   font-size: 17px;
@@ -275,12 +251,10 @@ content {
   @include engineering-grid;
 }
 
-// Typora hardcodes the hit colour; only the current hit reads a custom property.
 ::highlight(search-hit) {
   background: tint(signal, 0.52);
 }
 
-// Reading surface and Markdown elements. These selectors also survive native exports.
 #write {
   box-sizing: border-box;
   max-width: 980px;
@@ -537,9 +511,6 @@ content {
       text-transform: uppercase;
     }
 
-    // The visible label is drawn by this pseudo-element, which carries its own
-    // `text-transform` in the base styles; inheriting keeps the editor and the
-    // native export in agreement.
     .md-alert-text-container::after {
       text-transform: inherit;
     }
@@ -582,9 +553,6 @@ content {
     font-weight: 700;
   }
 
-  // `overflow-x: auto` makes the figure a formatting context, so the table's own
-  // margin can no longer collapse with it and the two would stack into a double gap.
-  // The figure's margin alone carries the spacing.
   figure {
     overflow-x: auto;
 
@@ -636,10 +604,6 @@ content {
     }
   }
 
-  // Editing uses CodeMirror's own box, exports render the bare `pre`; both need the
-  // same inset so a fence is the same height in the editor and in the export. The
-  // bottom is 3px shy of the top because the line box does not split its leading
-  // evenly — that makes the space above and below the code read as equal.
   .md-fences:not(.md-fences-advanced) {
     position: relative;
     margin-block: $block-gap;
@@ -670,15 +634,10 @@ content {
     }
   }
 
-  // CodeMirror inherits the fence background, which would repeat the signal rule
-  // inside the editor; both fence kinds need it painted out.
   .md-fences :is(.CodeMirror, .CodeMirror-scroll, .CodeMirror-gutters) {
     background: $paper;
   }
 
-  // Rendered diagrams (Mermaid, sequence, flow) get the same frame as a code fence.
-  // Mermaid already leaves a 40px margin inside its own canvas, so the frame keeps
-  // only a thin bottom inset instead of stacking a second gap under the drawing.
   .md-fences-advanced {
     margin-block: $block-gap;
     padding: 0.85rem 1rem 0.5rem;
@@ -690,7 +649,6 @@ content {
       padding: 0;
     }
 
-    // Block, not inline, so the line box under the drawing does not add a gap.
     .md-diagram-panel-preview svg {
       display: block;
       margin-inline: auto;
@@ -716,17 +674,11 @@ content {
     font-family: $mono-font;
   }
 
-  // Reference definitions. Typora fades the whole block and hardcodes a cool grey on
-  // the `[^` marker, both of which read as foreign here.
   :is(.md-def-link, .md-def-footnote) {
     opacity: 1;
     color: $muted;
     font-size: 0.875rem;
 
-    // The brackets are absolutely positioned into fixed `ch` padding sized for the
-    // footnote's two-character `[^`, which leaves a gap before a link definition's
-    // `[` and crowds the closing `] :`. Let them flow instead, so the rendering
-    // matches the source in either form.
     .md-def-name {
       padding: 0;
       color: $ink;
@@ -741,7 +693,6 @@ content {
     }
   }
 
-  // Raw HTML and math blocks are framed, so their rendered content needs the inset.
   .md-rawblock {
     padding: 0.85rem 1rem;
     border: 1px solid $rule;
@@ -760,8 +711,6 @@ content {
   }
 
   .md-toc {
-    // The base styles bleed the TOC 20px past the text column and pad the inner
-    // wrapper to compensate; a framed block has to undo both.
     margin-inline: 0;
     padding: 0.9rem 1rem 1rem;
     border: 1px solid $ink;
@@ -785,9 +734,6 @@ content {
       margin: 0;
       padding: 0;
 
-      // Typora draws the empty-TOC placeholder absolutely positioned at 2em, so it
-      // contributes no height and spills out of the frame. Let it flow and take the
-      // same meta treatment as the rest of the block.
       &:empty::before {
         position: static;
         color: $muted;
@@ -843,8 +789,6 @@ content {
     }
   }
 
-  // A footnote reference is a pointer, so it takes the signal marker rather than the
-  // green that sat outside the palette.
   .md-footnote {
     padding: 0.1em 0.4em;
     border-radius: 0;
@@ -936,7 +880,6 @@ content {
   }
 }
 
-// Each depth adds one type selector, so the deepest matching rule always wins.
 $unordered-list-selector: "#write ul";
 
 @for $level from 1 through $unordered-marker-depth {
@@ -951,17 +894,10 @@ $unordered-list-selector: "#write ul";
   $unordered-list-selector: "#{$unordered-list-selector} ul";
 }
 
-// Hybrid editor-only states: Markdown metadata, search, CodeMirror and edit panels.
-
-// Typora gives `.ty-table-edit` an inline `margin-top: -<its own height>`, so the
-// toolbar hangs in the figure's top margin rather than over the table. Its box would
-// otherwise inherit the prose line-height and stand 9px taller than its own buttons.
 #write .ty-table-edit {
   line-height: 1;
 }
 
-// Open the gap only while the toolbar is actually in the DOM, so an unfocused table
-// keeps the normal block rhythm instead of a permanently empty row.
 body:not(.typora-export) #write figure:has(.ty-table-edit) {
   margin-top: 1.6rem;
 
@@ -970,9 +906,6 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
   }
 }
 
-// Table size picker. It is a real <table> living inside #write, so the document table
-// rules have to be held off it, and Typora's hardcoded greys mapped onto the palette:
-// ink shading marks the current extent, signal marks the new selection.
 #write .md-grid-board {
   width: auto;
   border-collapse: separate;
@@ -1054,8 +987,6 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
     background: $paper;
   }
 
-  // Numbers are right-aligned, so the right padding is the whole visible gap before
-  // the gutter rule; keep it thin and put the breathing room on the left instead.
   .CodeMirror-linenumber {
     padding: 0 0.1rem 0 0.35rem;
     color: $muted;
@@ -1135,7 +1066,6 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
   @include control-hover;
 }
 
-// A dark chip sitting on the image itself; an ink tint would vanish there.
 .md-image-btn:hover,
 .md-image-btn.selected {
   background: $ink;
@@ -1150,7 +1080,6 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
   font-family: $tech-font;
 }
 
-// Typora 1.14 editor toolbar.
 .ty-editor-toolbar {
   border: 1px solid $ink;
   border-radius: $radius;
@@ -1160,8 +1089,6 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
   @include hard-shadow;
 }
 
-// Pointing at a button is not a state worth the signal marker; that stays for the
-// toggles that are actually on.
 .ty-editor-toolbar-btn {
   border-radius: 1px;
 
@@ -1206,7 +1133,6 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
   box-shadow: none;
 }
 
-// Application shell: sidebar, search, menus, dialogs, preview and preferences.
 #typora-sidebar {
   border-right: 1px solid $rule;
   background: $paper;
@@ -1228,7 +1154,6 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
   @include control-hover;
 }
 
-// The open file carries an edge marker on top of the shared tint.
 :is(.file-list-item.active, .file-list-item.select),
 .file-tree-node:is(.active, .select) > .file-node-background,
 .file-library-node.active > .file-node-background {
@@ -1240,17 +1165,10 @@ body:not(.typora-export) #write figure:has(.ty-table-edit) {
   @include control-on;
 }
 
-// `.outline-active` lands on the label, which is only as wide as its text, so the
-// tint goes on the row — `.outline-item`, which carries `.outline-item-active` in
-// the editor and is its child in exports.
 .outline-item.outline-item-active {
   @include control-on;
 }
 
-// Typora bleeds only the hovered row past the sidebar's gutter, with a negative
-// margin and a transparent border, which left the two bands 56px apart in width.
-// Driving both states from one rule is what keeps them identical; 28px is Typora's
-// own offset.
 .outline-item:hover,
 .outline-item.outline-item-active {
   margin-inline: -28px;
@@ -1325,13 +1243,11 @@ button {
   color: $paper;
 }
 
-// Preferences renders its own `.btn` controls; leave those to Typora.
 .btn-default:hover:not(.ty-preferences *) {
   border-color: $ink;
   @include control-hover;
 }
 
-// The primary button is already ink on paper, so it lifts rather than tints.
 .btn-primary:hover:not(.ty-preferences *) {
   border-color: $soft;
   background: $soft;
@@ -1380,7 +1296,6 @@ footer.ty-footer {
   border-color: tint(paper, 0.25);
 }
 
-// This menu is ink-on-paper inverted, so its hover lifts towards paper instead.
 .megamenu-menu-list li a:is(.active, :hover) {
   background: tint(paper, 0.14);
   color: $paper;
@@ -1406,9 +1321,6 @@ footer.ty-footer {
   }
 }
 
-// Preferences is a separate window that keeps Typora's own controls. The signal
-// marker reads as an editor affordance, so selection here stays on the ink scale;
-// `.export-item.active` already resolves through `--active-file-bg-color`.
 .ty-preferences {
   .window-content {
     background: $canvas;
@@ -1423,15 +1335,11 @@ footer.ty-footer {
     @include control-hover;
   }
 
-  // Export is the only pane Typora fills with a tinted card; its padding already
-  // groups the form, so drop the slab and let it read like every other pane.
   .export-detail {
     background: none;
     color: $ink;
   }
 
-  // Typora ships `prefers-color-scheme: dark` rules for this window that would drop
-  // slate panels into a light theme when the OS is dark.
   .export-item.active,
   .export-items-list-control {
     @include control-on;
@@ -1442,7 +1350,6 @@ footer.ty-footer {
   }
 }
 
-// Typora 1.14 file/media preview mode.
 #ty-preview {
   background: $canvas;
   color: $ink;
@@ -1504,7 +1411,6 @@ footer.ty-footer {
   }
 }
 
-// Native HTML and image export keep the document surface but omit editor chrome.
 body.typora-export {
   @include engineering-grid;
 
@@ -1537,7 +1443,6 @@ body.typora-export {
     padding: 3rem 1rem;
   }
 
-  // Exports bleed the row on the trailing edge only, and by a smaller amount.
   .outline-item-active > .outline-item {
     @include control-on;
     margin-inline-end: -8px;
@@ -1606,8 +1511,6 @@ body.typora-export {
   }
 }
 
-// PDF/print is a separate rendering context. Avoid whole-table break avoidance: it
-// causes long tables to overflow, while Typora already repeats thead and keeps rows intact.
 @media print {
   :root {
     --bg-color: #fff;
