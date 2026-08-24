@@ -1,5 +1,5 @@
 [tools]
-"aqua:sass/dart-sass" = "1.103.1"
+"npm:sass" = "1.103.1"
 oxfmt = "0.64.0"
 
 [tasks.build]
