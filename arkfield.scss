@@ -65,8 +65,10 @@ $radius: 2px;
 
 // One gap for every block-level element. It is `rem`, not `em`, because code fences
 // and tables set their own smaller font size — `em` would silently shrink the gap
-// under exactly the blocks that need it most.
-$block-gap: 0.5rem;
+// under exactly the blocks that need it most. The gaps inside a list are written as
+// fractions of it rather than as their own lengths, so retuning this one number moves
+// the whole rhythm and leaves the proportions where they were.
+$block-gap: 0.8rem;
 $body-font:
   "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
 $ja-font: "Noto Sans JP", "Source Han Sans JP", "Yu Gothic UI", Meiryo, $body-font;
@@ -397,7 +399,7 @@ content {
     padding-left: 0.15rem;
 
     > p {
-      margin-block: 0.2rem;
+      margin-block: $block-gap * 0.4;
     }
 
     &::marker {
@@ -407,11 +409,11 @@ content {
     }
 
     + li {
-      margin-top: 0.35rem;
+      margin-top: $block-gap * 0.7;
     }
 
     > :is(ul, ol) {
-      margin-block: 0.35rem;
+      margin-block: $block-gap * 0.7;
     }
   }
 
@@ -646,7 +648,7 @@ content {
     @include signal-top;
     color: $ink;
     font-family: $mono-font;
-    font-size: 0.82rem;
+    font-size: 0.88rem;
     line-height: 1.65;
 
     &:has(.CodeMirror) {
