@@ -221,8 +221,8 @@ $unordered-marker-depth: 12;
   background: $background;
 }
 
-@mixin engineering-grid {
-  background-color: $canvas;
+@mixin engineering-grid($background: $canvas) {
+  background-color: $background;
   background-image:
     linear-gradient(tint(ink, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, tint(ink, 0.04) 1px, transparent 1px);
@@ -1453,7 +1453,7 @@ footer.ty-footer {
 }
 
 body.typora-export {
-  @include engineering-grid;
+  @include engineering-grid(#fff);
 
   #write {
     min-width: 0;

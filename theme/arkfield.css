@@ -1397,7 +1397,7 @@ footer.ty-footer {
 }
 
 body.typora-export {
-  background-color: var(--ark-canvas);
+  background-color: #fff;
   background-image:
     linear-gradient(rgba(25, 25, 25, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(25, 25, 25, 0.04) 1px, transparent 1px);
