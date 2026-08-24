@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Mise
+        uses: jdx/mise-action@v4
+
+      - name: Run check
+        run: mise run check
+
+      - name: Package theme
+        env:
+          TAG: ${{ github.ref_name }}
+        run: zip -r "arkfield-$TAG.zip" theme
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: arkfield-*.zip
+          generate_release_notes: true
+          fail_on_unmatched_files: true
