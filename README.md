@@ -1,6 +1,6 @@
 # Arkfield
 
-Arkfield 是一个以《明日方舟：终末地》的设计风格为参考，面向长文阅读和编辑 Typora 浅色主题。
+Arkfield 是一个以《明日方舟：终末地》视觉语言为参考的 Typora 浅色主题。
 
 ## 覆盖范围
 
@@ -61,7 +61,7 @@ mise run check
 mise run fmt
 ```
 
-`arkfield.scss` 是唯一需要维护的主题样式源码；构建产物为 `theme/*`。源码用 Sass 编写。
+`arkfield.scss` 是唯一需要维护的主题样式源码，构建产物为 `theme/*`。
 
 修改 Sass 后重新编译并覆盖 CSS 与字体目录，并重新启动 Typora。通过“视图 → 开发者工具”检查编辑区和应用界面。导出问题应分别用 HTML 与 PDF 验证。
 
