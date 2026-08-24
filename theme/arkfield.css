@@ -779,62 +779,74 @@ content {
 
 #write ul > li:not(.md-task-list-item, .task-list-item)::marker {
   content: "●  ";
-  font-size: 1em;
+  font-family: "Inter", sans-serif;
+  font-size: 0.5em;
 }
 
 #write ul ul > li:not(.md-task-list-item, .task-list-item)::marker {
   content: "○  ";
-  font-size: 0.72em;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6em;
 }
 
 #write ul ul ul > li:not(.md-task-list-item, .task-list-item)::marker {
   content: "■  ";
-  font-size: 0.68em;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6em;
 }
 
 #write ul ul ul ul > li:not(.md-task-list-item, .task-list-item)::marker {
   content: "●  ";
-  font-size: 1em;
+  font-family: "Inter", sans-serif;
+  font-size: 0.5em;
 }
 
 #write ul ul ul ul ul > li:not(.md-task-list-item, .task-list-item)::marker {
   content: "○  ";
-  font-size: 0.72em;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6em;
 }
 
 #write ul ul ul ul ul ul > li:not(.md-task-list-item, .task-list-item)::marker {
   content: "■  ";
-  font-size: 0.68em;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6em;
 }
 
 #write ul ul ul ul ul ul ul > li:not(.md-task-list-item, .task-list-item)::marker {
   content: "●  ";
-  font-size: 1em;
+  font-family: "Inter", sans-serif;
+  font-size: 0.5em;
 }
 
 #write ul ul ul ul ul ul ul ul > li:not(.md-task-list-item, .task-list-item)::marker {
   content: "○  ";
-  font-size: 0.72em;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6em;
 }
 
 #write ul ul ul ul ul ul ul ul ul > li:not(.md-task-list-item, .task-list-item)::marker {
   content: "■  ";
-  font-size: 0.68em;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6em;
 }
 
 #write ul ul ul ul ul ul ul ul ul ul > li:not(.md-task-list-item, .task-list-item)::marker {
   content: "●  ";
-  font-size: 1em;
+  font-family: "Inter", sans-serif;
+  font-size: 0.5em;
 }
 
 #write ul ul ul ul ul ul ul ul ul ul ul > li:not(.md-task-list-item, .task-list-item)::marker {
   content: "○  ";
-  font-size: 0.72em;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6em;
 }
 
 #write ul ul ul ul ul ul ul ul ul ul ul ul > li:not(.md-task-list-item, .task-list-item)::marker {
   content: "■  ";
-  font-size: 0.68em;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6em;
 }
 
 #write .ty-table-edit {

@@ -23,6 +23,7 @@ $body-font: stack($face-text, $sys-sc, sans-serif);
 $tech-font: stack($face-display, $sys-sc, sans-serif);
 $mono-font: stack($face-mono, $sys-mono, $sys-sc, monospace);
 $ja-font: stack($face-text, $sys-jp, $sys-sc, sans-serif);
+$marker-font: stack($face-text, sans-serif);
 
 @font-face {
   font-family: $face-text;
@@ -201,7 +202,7 @@ $alerts: (
   ),
 );
 
-$unordered-markers: (("●", 1em), ("○", 0.72em), ("■", 0.68em));
+$unordered-markers: (("●", 0.5em), ("○", 0.6em), ("■", 0.6em));
 $unordered-marker-depth: 12;
 
 @mixin trim-flow($priority: null) {
@@ -927,6 +928,7 @@ $unordered-list-selector: "#write ul";
 
   #{$unordered-list-selector} > li:not(.md-task-list-item, .task-list-item)::marker {
     content: "#{list.nth($marker, 1)}  ";
+    font-family: $marker-font;
     font-size: list.nth($marker, 2);
   }
 
