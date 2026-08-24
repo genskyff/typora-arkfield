@@ -20,12 +20,6 @@ jobs:
       - name: Setup Mise
         uses: jdx/mise-action@v4
 
-      - name: Debug dart-sass
-        run: |
-          D="$(mise where aqua:sass/dart-sass)/dart-sass"
-          ls -la "$D" "$D/src"
-          file "$D/src/dart"
-
       - name: Run check
         run: mise run check
 
