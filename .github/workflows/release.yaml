@@ -24,6 +24,11 @@ jobs:
       - name: Run check
         run: mise run check
 
+      - name: Verify generated theme
+        run: |
+          mise run build
+          git diff --exit-code -- theme
+
       - name: Package theme
         env:
           TAG: ${{ github.ref_name }}
