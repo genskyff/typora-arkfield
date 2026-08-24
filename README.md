@@ -17,6 +17,8 @@ Word、OpenDocument、LaTeX 等 Pandoc 导出走独立模板/转换链，不能�
 
 ## 安装
 
+从 [Releases](../../releases) 下载 zip 并解压，或直接克隆本仓库。
+
 1. 在 Typora 中打开“文件 → 偏好设置 → 外观 → 打开主题文件夹”
 2. 把 `theme` 下的所有文件复制到该目录
 3. 重启 Typora，在“主题”菜单选择 `Arkfield`
