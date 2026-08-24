@@ -9,7 +9,7 @@ Arkfield 是一个以《明日方舟：终末地》的设计风格为参考，�
 - 应用外壳：侧边栏、文件树/列表、大纲与全局搜索、快速打开、通知、菜单、对话框、状态栏、偏好设置、主题选择和 Typora 1.14+ 预览模式。
 - 导出：HTML、图片、打印/PDF；打印规则单独处理分页、长表格、代码换行和背景色还原。
 
-完整格式与中日英混排效果见 [主题展示文档](assets/coverage.md)；在 Typora 中使用 Arkfield 打开该文件，可以检查正文、组件、扩展语法与导出分页。
+完整格式与中日英混排效果见 [主题展示文档](assets/coverage.md)：在 Typora 中使用 Arkfield 打开该文件，可以检查正文、组件、扩展语法与导出分页。
 
 Word、OpenDocument、LaTeX 等 Pandoc 导出走独立模板/转换链，不能保证使用主题 CSS，详见 [Typora 导出文档](https://support.typora.io/Export/)。
 
