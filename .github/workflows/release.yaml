@@ -30,9 +30,10 @@ jobs:
           git diff --exit-code -- theme
 
       - name: Package theme
+        working-directory: theme
         env:
           TAG: ${{ github.ref_name }}
-        run: zip -r "arkfield-$TAG.zip" theme
+        run: zip -r "../arkfield-$TAG.zip" .
 
       - name: Publish release
         uses: softprops/action-gh-release@v3
