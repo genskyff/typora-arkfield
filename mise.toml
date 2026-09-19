@@ -1,5 +1,5 @@
 [tools]
-"npm:sass" = "1.103.1"
+"npm:sass" = "1.104.1"
 oxfmt = "latest"
 
 [tasks.build]
